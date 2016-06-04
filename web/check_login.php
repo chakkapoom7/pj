@@ -12,10 +12,6 @@
 	
 
 
-
-
-
-
     if(!$objResult)
 	{
 			

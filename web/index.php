@@ -22,13 +22,15 @@
 <body>
     <div class="container">
         <form class="form-signin" name="form0" method="post" action="check_login.php">
-            <h2 class="form-signin-heading">Please sign in</h2>
+            
             <?php
                 $laststate = $_GET['fail'];
                 if($laststate ){
                     echo '<div class="alert alert-danger" role="alert">Username or Password are incorrect.<br>Please try again.</div>';
                 }
             ?>
+
+            <h2 class="form-signin-heading">Please sign in</h2>
                 <label for="inputEmail" class="sr-only">User Name</label>
                 <input type="text" id="txtUsername" name="txtUsername" class="form-control" placeholder="User Name" required autofocus>
                 <label for="inputPassword" class="sr-only">Password</label>
