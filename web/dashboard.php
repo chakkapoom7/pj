@@ -10,13 +10,15 @@
 
 	if($_SESSION['permit'] != "ADMIN")
 	{
-		echo "you not have permission.";
-		exit();
-	}	
+		//echo "you not have permission.";
+		$permit = Admin ;
+	}else{
+        $permit = user ;
+    }	
 	
 	mysql_connect("localhost","root","kks*5cvp768");
-	mysql_select_db("proj");
-	$strSQL = "SELECT * FROM member WHERE UserID = '".$_SESSION['UserID']."' ";
+	mysql_select_db("radius");
+	$strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
 	$objQuery = mysql_query($strSQL);
 	$objResult = mysql_fetch_array($objQuery);
 ?>
@@ -72,9 +74,7 @@
                     <ul class="nav nav-sidebar" style="padding:0px 10px 0px 10px ">
                         <div class="jumbotron" style="padding:10px 10px 5px 10px">
                             <li>
-                                <h4>User : <?php echo $objResult["Username"];?></h4></li>
-                            <li>
-                                <h5>Name: <?php echo $objResult["Name"];?></h5></li>
+                                <h4>User : <?php echo $objResult["username"];?></h4></li>
                             <li>
                                 <h5>Permission : Admin</h5></li>
                             <p>
