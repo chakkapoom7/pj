@@ -24,9 +24,14 @@
         <form class="form-signin" name="form0" method="post" action="check_login.php">
             
             <?php
-                $laststate = $_GET['fail'];
-                if($laststate ){
+                $laststate = $_GET['error'];
+            
+                if($laststate == '1'){
                     echo '<div class="alert alert-danger" role="alert">Username or Password are incorrect.<br>Please try again.</div>';
+                }else if($laststate == '2'){
+                    echo '<div class="alert alert-danger" role="alert">unknow error.</div>';
+                }else if($laststate == '3'){
+                    echo '<div class="alert alert-danger" role="alert">please login before.</div>';
                 }
             ?>
 
