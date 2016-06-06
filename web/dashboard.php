@@ -45,6 +45,8 @@
         <link href="./css/dashboard.css" rel="stylesheet">
 
 
+
+
     </head>
 
     <body>
@@ -118,15 +120,11 @@
                                 <input type="time" name="time2">
 
                                 <br>
-                                <br>
-
 
                                 <input type="radio" name="type" value="4" checked> IP(v4) Address &nbsp&nbsp&nbsp
                                 <input type="radio" name="type" value="6"> IP(v6) Address &nbsp&nbsp&nbsp
                                 <input type="radio" name="type" value="0"> Mac Address &nbsp&nbsp
                                 <input type="text" class="form-control" style="width: 70%;" name="string" placeholder=" Address">
-
-                                <br>
 
                                 <input type="text" class="form-control" style="width: 70%;" name="usersearch" placeholder=" User">
 
@@ -139,10 +137,9 @@
       </form>
         
      </div><!--jumbotron-->
-            
-            
+                        
+<iframe src="http://www.w3schools.com" width="100%" height="500px" id="iframe1" marginheight="0" frameborder="0" ></iframe>
 
-            
             
             <!-- for table table-->
     <div class="table-responsive" >
