@@ -138,7 +138,7 @@
         
      </div><!--jumbotron-->
                         
-<iframe src="http://www.w3schools.com" width="100%" height="500px" id="iframe1" marginheight="0" frameborder="0" ></iframe>
+<iframe src="infomation.php" width="100%" height="500px" id="iframe1" marginheight="0" frameborder="0" ></iframe>
 
             
             
