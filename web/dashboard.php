@@ -141,56 +141,7 @@
 <iframe src="http://www.w3schools.com" width="100%" height="500px" id="iframe1" marginheight="0" frameborder="0" ></iframe>
 
             
-            <!-- for table table-->
-    <div class="table-responsive" >
-    <table class="table table-striped" >
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>User</th>
-          <th>PhysicalAddress</th>
-          <th>IP Address(v4)</th>
-          <th>IP Address(v6)</th>
-          <th>date time</th>
-        </tr>
-      </thead>
-      <tbody>
-
-<?php
- // Connects to your Database
- mysql_connect("localhost", "root", "kks*5cvp768") or die(mysql_error());
- mysql_select_db("proj") or die(mysql_error());
-
- #find userid on log table------------------------------------------------------------
- $tmp_string_user = "SELECT id FROM user WHERE user = '" . $objResult["Username"] . "'";
- $ob_userid = mysql_query($tmp_string_user) or die(mysql_error());
- $objuserResult = mysql_fetch_array($ob_userid);
-
-#define sql str query------------------------------------------------------------------
-if($_POST[query_str] == ""){
-    $strquery = "SELECT a.id,b.user,c.address AS mac,d.ip AS ipv4,e.ip AS ipv6,a.time FROM log a LEFT JOIN user b ON a.userid=b.id LEFT JOIN mac c ON a.macid=c.id LEFT JOIN v4 d ON a.v4id=d.id LEFT JOIN v6 e ON a.v6id=e.id ORDER BY time DESC ;";
-}
-else{
-   $strquery = $_POST[query_str];
-}
-#query DB -----------------------------------------------------------------
- $data = mysql_query($strquery) or die(mysql_error());
-#print table ------------------------------------------------------------
-  while($info = mysql_fetch_array( $data ))
-  {
-    print "<tr>";
-     print "<td>".$info['id']. "</td>";
-     print "<td>".$info['user']. "</td>";
-     print "<td>".$info['mac']. "</td>";
-     print "<td>".$info['ipv4']. "</td>";
-     print "<td>".$info['ipv6']. "</td>";
-     print "<td>".$info['time']. "</td>";
-    print "</tr>";
-  }
- ?>
-     </tbody>
-   </table>
-   </div>
+            
             
               
           </div>
