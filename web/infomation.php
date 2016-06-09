@@ -71,19 +71,24 @@
                     <?php
  // Connects to your Database
  mysql_connect("localhost", "root", "kks*5cvp768") or die(mysql_error());
- mysql_select_db("proj") or die(mysql_error());
+ mysql_select_db("radius") or die(mysql_error());
 
  #find userid on log table------------------------------------------------------------
- $tmp_string_user = "SELECT id FROM user WHERE user = '" . $objResult["Username"] . "'";
+ $tmp_string_user = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
  $ob_userid = mysql_query($tmp_string_user) or die(mysql_error());
  $objuserResult = mysql_fetch_array($ob_userid);
 
 #define sql str query------------------------------------------------------------------
+                    
+                    
+                    
+                    
 if($_POST[query_str] == ""){
-    $strquery = "SELECT a.id,b.user,c.address AS mac,d.ip AS ipv4,e.ip AS ipv6,a.time FROM log a LEFT JOIN user b ON a.userid=b.id LEFT JOIN mac c ON a.macid=c.id LEFT JOIN v4 d ON a.v4id=d.id LEFT JOIN v6 e ON a.v6id=e.id ORDER BY time DESC ;";
+    $strquery = "SELECT * 
+FROM  `radacct` ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC WHERE user = '" . $objResult["Username"] . "' LIMIT 0 , 30";
 }
 else{
-   $strquery = $_POST[query_str];
+   $strquery = $_POST[query_str];s
 }
 #query DB -----------------------------------------------------------------
  $data = mysql_query($strquery) or die(mysql_error());
@@ -91,12 +96,12 @@ else{
   while($info = mysql_fetch_array( $data ))
   {
     print "<tr>";
-     print "<td>".$info['id']. "</td>";
-     print "<td>".$info['user']. "</td>";
-     print "<td>".$info['mac']. "</td>";
-     print "<td>".$info['ipv4']. "</td>";
-     print "<td>".$info['ipv6']. "</td>";
-     print "<td>".$info['time']. "</td>";
+     print "<td>".$info['callingstationid']. "</td>";
+     print "<td>".$info['nasporttype']. "</td>";
+     print "<td>".$info['acctstarttime']. "</td>";
+     print "<td>".$info['acctstoptime']. "</td>";
+     //print "<td>".$info['ipv6']. "</td>";
+     //print "<td>".$info['time']. "</td>";
     print "</tr>";
   }
  ?>
