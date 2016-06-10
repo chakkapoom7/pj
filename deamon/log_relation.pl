@@ -178,16 +178,16 @@ sub getValue{
   ##########  @vTable[$index][ 0 = mac | 1 = v6 ]  ###########
 
   
-  my $qq;
+  my @qq;
   
- # foreach $qq (@v6Table){
- #   my @asd_f = {$qq[0],$qq[1]}
-#    toDB(\@asd_f);
-  #}
+ # foreach @qq (@v6Table){
+ #   my @asd_f = {$qq[0],$qq[1]};
+ #   toDB(@asd_f);
+ # }
 #  
-#  foreach $qq (\@v4Table){
-#    toDB($qq);
-#  }
+  #foreach $qq (@v4Table){
+  #  toDB($qq);
+  #}
 
   print "send to database. . . \n";
 
