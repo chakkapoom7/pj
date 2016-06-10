@@ -58,17 +58,15 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>User</th>
-                        <th>PhysicalAddress</th>
-                        <th>IP Address(v4)</th>
-                        <th>IP Address(v6)</th>
-                        <th>date time</th>
+                        <th>ACC time start</th>
+                        <th>ACC time stop</th>
+                        <th>Type</th>
+                        <th>Physical Address</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    <?php
+<?php
  // Connects to your Database
  mysql_connect("localhost", "root", "kks*5cvp768") or die(mysql_error());
  mysql_select_db("radius") or die(mysql_error());
@@ -83,23 +81,24 @@
                     
                     
                     
-if($_POST[query_str] == ""){
-    $strquery = "SELECT * 
-FROM  `radacct` ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC WHERE user = '" . $objResult["Username"] . "' LIMIT 0 , 30";
-}
-else{
-   $strquery = $_POST[query_str];s
-}
+ if($_POST[query_str] == ""){
+     $strquery = "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 30";
+//     echo "111";
+     //".$objResult["username"]"
+ }
+// else{
+//    $strquery = $_POST[query_str];
+// }
 #query DB -----------------------------------------------------------------
  $data = mysql_query($strquery) or die(mysql_error());
 #print table ------------------------------------------------------------
   while($info = mysql_fetch_array( $data ))
   {
     print "<tr>";
-     print "<td>".$info['callingstationid']. "</td>";
-     print "<td>".$info['nasporttype']. "</td>";
      print "<td>".$info['acctstarttime']. "</td>";
      print "<td>".$info['acctstoptime']. "</td>";
+     print "<td>".$info['nasporttype']. "</td>";
+     print "<td>".$info['callingstationid']. "</td>";
      //print "<td>".$info['ipv6']. "</td>";
      //print "<td>".$info['time']. "</td>";
     print "</tr>";
