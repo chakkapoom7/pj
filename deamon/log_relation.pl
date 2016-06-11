@@ -75,12 +75,15 @@ sub getv6{
      # print "$bbb[$line][0]  ";
       $bbb[$line][1] = "$tmp2[0]";
      # print "$bbb[$line][1]  \n";
+      
+      toDB($bbb[$line][0],$bbb[$line][1]);
       $line++ ;
     }
   }
 
   #print "resault of v6:  $line  line    of  $size \n\n";
   #print "$bbb[0][0] - - $bbb[0][1]\n";
+
   return @bbb;
 }
 
@@ -132,6 +135,7 @@ sub getv4{
       $bbb[$line][0] = "$tmp2[1]";
       #removeJ($tmp2[0]);
       $bbb[$line][1] = removeJ($tmp2[0]);
+      toDB($bbb[$line][0],$bbb[$line][1]);
       #print "$bbb[$line][0]  $bbb[$line][1]\n";
       $line ++ ;
     }
@@ -144,10 +148,10 @@ sub getv4{
 
 sub toDB
 
-{my @datapack = @{$_[0]};
+{my @datapack = @_;
 #  my (@datapack) = @_ ;
 #  print "$datapack[0]  $datapack[1] \n";
-    print "$datapack[0]  $datapack[1]  $datapack[2] \n";
+    print "$datapack[0]  $datapack[1]   \n";
 }
 
 
@@ -178,17 +182,6 @@ sub getValue{
   ##########  @vTable[$index][ 0 = mac | 1 = v6 ]  ###########
 
   
-  my @qq;
-  
- # foreach @qq (@v6Table){
- #   my @asd_f = {$qq[0],$qq[1]};
- #   toDB(@asd_f);
- # }
-#  
-  #foreach $qq (@v4Table){
-  #  toDB($qq);
-  #}
-
   print "send to database. . . \n";
 
 

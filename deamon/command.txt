@@ -1,0 +1,14 @@
+snmpwalk -c public -v 1 udp6:[2001:3c8:9009:181::1] IP-MIB::ipNetToPhysicalPhysAddress
+V6
+
+
+snmpwalk -c public -v 1 udp6:[2001:3c8:9009:181::1] IP-MIB::ipNetToMediaPhysAddress
+V4
+
+fdb6:6590:52b4::1
+
+FDB6:6590:52B4::1
+
+snmpwalk -c public -v 1 udp6:[fdb6:6590:52b4::1]
+snmpwalk -c public -v 1 udp6:[fdb6:6590:52b4::1] IP-MIB::ipNetToPhysicalPhysAddress
+snmpwalk -c public -v 1 udp6:[fdb6:6590:52b4::1] IP-MIB::ipNetToMediaPhysAddress
