@@ -16,6 +16,31 @@ my $dbh = DBI->connect($dsn, $userid, $password , {AutoCommit => 0,RaiseError =>
 my @init;
 my $switch_v6address;
 my $interval;
+my $datetimeGlobal;
+
+sub addZero{
+  my $tmpValue = @_[0];
+  if((length $tmpValue) == 1){
+    return "0$tmpValue";
+  }else{
+    return $tmpValue;
+  }
+}
+
+sub macFormat{
+  my $mac = @_[0];
+  chomp($mac);
+  $mac = uc($mac);
+  #print "\n$mac\n";
+  my @macElement = split(":",$mac);
+
+  my $i;
+  my $size = @macElement;
+  for (my $i = 0 ; $i < $size  ; $i++ ){
+    $macElement[$i] = addZero($macElement[$i]);
+  }
+  return "$macElement[0]-$macElement[1]-$macElement[2]-$macElement[3]-$macElement[4]-$macElement[5]";
+}
 
 
 sub getInitialValue{
@@ -75,8 +100,9 @@ sub getv6{
      # print "$bbb[$line][0]  ";
       $bbb[$line][1] = "$tmp2[0]";
      # print "$bbb[$line][1]  \n";
-      
-      toDB($bbb[$line][0],$bbb[$line][1]);
+      my $mmmmm = macFormat($bbb[$line][0]);
+      my $nnnn = uc($bbb[$line][1]);
+      toDB($mmmmm,$nnnn);
       $line++ ;
     }
   }
@@ -135,8 +161,10 @@ sub getv4{
       $bbb[$line][0] = "$tmp2[1]";
       #removeJ($tmp2[0]);
       $bbb[$line][1] = removeJ($tmp2[0]);
-      toDB($bbb[$line][0],$bbb[$line][1]);
-      #print "$bbb[$line][0]  $bbb[$line][1]\n";
+      
+      my $wwwwww = macFormat($bbb[$line][0]);
+      toDB($wwwwww,$bbb[$line][1]); 
+      #print "$bbb[$line][0]  $wwwwww  $bbb[$line][1]\n";
       $line ++ ;
     }
   }
@@ -151,7 +179,8 @@ sub toDB
 {my @datapack = @_;
 #  my (@datapack) = @_ ;
 #  print "$datapack[0]  $datapack[1] \n";
-    print "$datapack[0]  $datapack[1]   \n";
+    print "$datapack[0]  $datapack[1]\t$datetimeGlobal \n";
+
 }
 
 
@@ -161,8 +190,6 @@ sub toDB
 sub getValue{    
   print "getting data from switch. . . \n";
   my $taget_v6address = ($_[0]) ;
-  my @v6Table ;
-  my @v4Table ;
 
   (my $sec,my $min,my $hour,my $mday,my $mon,my $year,my $wday,my $yday,my $isdst) = localtime(time);
 
@@ -171,15 +198,12 @@ sub getValue{
   $mon += 1;
   my $datetime = "$year-$mon-$mday $hour:$min:$sec";
 
+  $datetimeGlobal = $datetime;
   
-  
-  @v6Table = getv6($taget_v6address);
-  ##########  @v6Table[$index][ 0 = mac | 1 = v6 ]  ###########
+  getv6($taget_v6address);
 
 
-
-  @v4Table = getv4($taget_v6address);
-  ##########  @vTable[$index][ 0 = mac | 1 = v6 ]  ###########
+  getv4($taget_v6address);
 
   
   print "send to database. . . \n";
