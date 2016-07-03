@@ -202,8 +202,10 @@ sub getValue{
   
 
 #create array
+my @v4array;
 
-  getv4($taget_v6address);
+
+#@v4array = getv4($taget_v6address);
 
 # v4 to DB
 
