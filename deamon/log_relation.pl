@@ -19,7 +19,7 @@ my $interval;
 my $datetimeGlobal;
 
 sub addZero{
-  my $tmpValue = @_[0];
+  my $tmpValue = $_[0];
   if((length $tmpValue) == 1){
     return "0$tmpValue";
   }else{
@@ -28,7 +28,7 @@ sub addZero{
 }
 
 sub macFormat{
-  my $mac = @_[0];
+  my $mac = $_[0];
   chomp($mac);
   $mac = uc($mac);
   #print "\n$mac\n";
@@ -126,7 +126,7 @@ sub getv4{
   chomp($ip_address);
 
   #Using System Command and keep resault to $data
-  my $data = `snmpwalk -c public -v 1 udp6:[$ip_address] IP-MIB::ipNetToMediaPhysAddress`; ######### v4 snmp command ##
+  my $data = `snmpwalk -c public -v 1 udp6:[$ip_address] IP-MIB::ipNetToMediaPhysAddress  | grep 172.30.231.*`; ######### v4 snmp command ##
   chomp($data);
 
 
@@ -179,7 +179,7 @@ sub toDB
 {my @datapack = @_;
 #  my (@datapack) = @_ ;
 #  print "$datapack[0]  $datapack[1] \n";
-    print "$datapack[0]  $datapack[1]\t$datetimeGlobal \n";
+    print "$datapack[0]  $datapack[1] \t $datetimeGlobal \n";
 
 }
 
@@ -200,11 +200,19 @@ sub getValue{
 
   $datetimeGlobal = $datetime;
   
-  getv6($taget_v6address);
 
+#create array
 
   getv4($taget_v6address);
 
+# v4 to DB
+
+
+  getv6($taget_v6address);
+
+# fillter only have on v4
+
+#v6 to DB
   
   print "send to database. . . \n";
 
