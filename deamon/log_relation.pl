@@ -18,6 +18,8 @@ my $switch_v6address;
 my $interval;
 my $datetimeGlobal;
 
+
+my @arraynew88;
 sub addZero{
   my $tmpValue = $_[0];
   if((length $tmpValue) == 1){
@@ -123,8 +125,9 @@ sub removeJ{
 
 sub getv4{
   my $ip_address = $_[0] ;
-  chomp($ip_address);
 
+
+  chomp($ip_address);
   #Using System Command and keep resault to $data
   my $data = `snmpwalk -c public -v 1 udp6:[$ip_address] IP-MIB::ipNetToMediaPhysAddress  | grep 172.30.231.*`; ######### v4 snmp command ##
   chomp($data);
@@ -162,8 +165,14 @@ sub getv4{
       #removeJ($tmp2[0]);
       $bbb[$line][1] = removeJ($tmp2[0]);
       
+
+      push @arraynew88, $bbb[$line][0];
+
       my $wwwwww = macFormat($bbb[$line][0]);
-      toDB($wwwwww,$bbb[$line][1]); 
+      toDB($wwwwww,$bbb[$line][1]);
+
+      
+
       #print "$bbb[$line][0]  $wwwwww  $bbb[$line][1]\n";
       $line ++ ;
     }
@@ -179,7 +188,7 @@ sub toDB
 {my @datapack = @_;
 #  my (@datapack) = @_ ;
 #  print "$datapack[0]  $datapack[1] \n";
-    print "$datapack[0]  $datapack[1] \t $datetimeGlobal \n";
+    #print "$datapack[0]  $datapack[1] \t $datetimeGlobal \n";
 
 }
 
@@ -202,14 +211,15 @@ sub getValue{
   
 
 #create array
-my @v4array;
 
 
-#@v4array = getv4($taget_v6address);
+
+getv4($taget_v6address);
 
 # v4 to DB
 
-
+print "@arraynew88";
+@arraynew88 = ();
   getv6($taget_v6address);
 
 # fillter only have on v4
@@ -233,5 +243,6 @@ print "time interval = $interval min\n";
 print "switch address = $switch_v6address\n";
 ###while(1){
 getValue($switch_v6address);
+#getValue($switch_v6address);
 #  sleep($interval);
 ####}
