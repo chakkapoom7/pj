@@ -68,6 +68,9 @@ sub getv6{
 
   #Using System Command and keep resault to $data
   my $data = `snmpwalk -c public -v 1 udp6:[$ip_address] IP-MIB::ipNetToPhysicalPhysAddress `;
+
+  
+
   chomp($data);
 
   my @aaa = split("IP-MIB::ipNetToPhysicalPhysAddress.",$data);
@@ -220,7 +223,11 @@ getv4($taget_v6address);
 
 print "@arraynew88";
 @arraynew88 = ();
-  getv6($taget_v6address);
+
+
+
+
+getv6($taget_v6address);
 
 # fillter only have on v4
 
