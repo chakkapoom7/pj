@@ -1,9 +1,11 @@
 #!/usr/bin/perl -w
+
 use strict;
 use warnings;
 use DBI;
 use Data::Dumper;
 use List::Util 'max';
+use List::MoreUtils qw(uniq);
 
 my $driver = "mysql";
 my $database = "proj";
@@ -20,6 +22,7 @@ my $datetimeGlobal;
 
 
 my @arraynew88;
+my @arraynew99;
 sub addZero{
   my $tmpValue = $_[0];
   if((length $tmpValue) == 1){
@@ -65,6 +68,8 @@ sub v6_16to32{
 sub getv6{
   my $ip_address = $_[0] ;
   chomp($ip_address);
+my i;
+foreach $i (@arraynew99){
 
   #Using System Command and keep resault to $data
   my $data = `snmpwalk -c public -v 1 udp6:[$ip_address] IP-MIB::ipNetToPhysicalPhysAddress `;
@@ -111,6 +116,8 @@ sub getv6{
       $line++ ;
     }
   }
+
+}
 
   #print "resault of v6:  $line  line    of  $size \n\n";
   #print "$bbb[0][0] - - $bbb[0][1]\n";
@@ -179,6 +186,7 @@ sub getv4{
       #print "$bbb[$line][0]  $wwwwww  $bbb[$line][1]\n";
       $line ++ ;
     }
+    @arraynew99 = uniq @arraynew88;
   }
 
   return @bbb;
@@ -221,19 +229,15 @@ getv4($taget_v6address);
 
 # v4 to DB
 
-print "@arraynew88";
-@arraynew88 = ();
-
-
-
+#print "@arraynew88";
 
 getv6($taget_v6address);
 
-# fillter only have on v4
+@arraynew88 = ();
+@arraynew99 = ();
 
-#v6 to DB
-  
-  print "send to database. . . \n";
+
+  print "\nsend to database. . . \n";
 
 
 }
