@@ -68,13 +68,16 @@ sub v6_16to32{
 sub getv6{
   my $ip_address = $_[0] ;
   chomp($ip_address);
-my i;
+#my i;
+my $initdata = `snmpwalk -c public -v 1 udp6:[$ip_address] IP-MIB::ipNetToPhysicalPhysAddress `;
 foreach $i (@arraynew99){
 
   #Using System Command and keep resault to $data
-  my $data = `snmpwalk -c public -v 1 udp6:[$ip_address] IP-MIB::ipNetToPhysicalPhysAddress `;
 
-  
+
+  my $data = "$initdata  | grep  $arraynew99[$i]";
+
+  print "$data\n";
 
   chomp($data);
 
@@ -122,7 +125,7 @@ foreach $i (@arraynew99){
   #print "resault of v6:  $line  line    of  $size \n\n";
   #print "$bbb[0][0] - - $bbb[0][1]\n";
 
-  return @bbb;
+  #return @bbb;
 }
 
 sub removeJ{
