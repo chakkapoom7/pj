@@ -68,16 +68,27 @@ sub v6_16to32{
 sub getv6{
   my $ip_address = $_[0] ;
   chomp($ip_address);
-#my i;
-my $initdata = `snmpwalk -c public -v 1 udp6:[$ip_address] IP-MIB::ipNetToPhysicalPhysAddress `;
-foreach $i (@arraynew99){
+my $i;
+my $nnn;
+#$nnn = scalar @arraynew99;
+#print "$nnn \n";
+my $initdata = "snmpwalk -c public -v 1 udp6:[$ip_address] IP-MIB::ipNetToPhysicalPhysAddress";
 
+ #print "$data\n";
+ my $indexn = @arraynew99 ;
+ #print "---- $indexn\n";
+for($i=0;$i<$indexn;$i++){
+#print "----------------- $arraynew99[$i] --------------------\n";
   #Using System Command and keep resault to $data
 
+my $data = ();
+$data = `$initdata | grep  "$arraynew99[$i]"` ;
+  #print "$data\n";
+  #`;
 
-  my $data = "$initdata  | grep  $arraynew99[$i]";
+ 
 
-  print "$data\n";
+  #print "$arraynew99[$i]\n";
 
   chomp($data);
 
@@ -201,7 +212,7 @@ sub toDB
 
 {my @datapack = @_;
 #  my (@datapack) = @_ ;
-#  print "$datapack[0]  $datapack[1] \n";
+  print "$datapack[0]  $datapack[1] \n";
     #print "$datapack[0]  $datapack[1] \t $datetimeGlobal \n";
 
 }
