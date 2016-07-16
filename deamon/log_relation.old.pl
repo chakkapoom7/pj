@@ -7,11 +7,6 @@ use Data::Dumper;
 use List::Util 'max';
 use List::MoreUtils qw(uniq);
 
-use Proc::Daemon;
-Proc::Daemon::Init;
-my $continue = 1;
-my $SIG{TERM} = sub { $continue = 0 };
-
 
 
 my $driver = "mysql";
@@ -282,8 +277,8 @@ $interval = $init[3];
 
 print "time interval = $interval min\n";
 print "switch address = $switch_v6address\n";
-prepare 
-
-while ($continue) {
-     getValue($switch_v6address);
-}
+###while(1){
+getValue($switch_v6address);
+#getValue($switch_v6address);
+#  sleep($interval);
+####}
