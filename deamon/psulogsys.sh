@@ -13,7 +13,7 @@
 # Source function library.
 . /etc/init.d/functions
 
-binary="/path/to/log_relation"
+binary="/etc/psulogsys/log_relation"
 
 [ -x $binary ] || exit 0
 

@@ -1,0 +1,48 @@
+#!/usr/bin/perl -w
+
+use strict;
+use warnings;
+use DBI;
+use Data::Dumper;
+use List::Util 'max';
+use List::MoreUtils qw(uniq);
+
+use Proc::Daemon;
+Proc::Daemon::Init;
+my $continue = 1;
+$SIG{TERM} = sub { $continue = 0 };
+
+
+
+my $driver = "mysql";
+my $database = "proj";
+my $dsn = "DBI:$driver:database=$database";
+my $userid = "root";
+my $password = "kks*5cvp768";
+
+my $dbh = DBI->connect($dsn, $userid, $password , {AutoCommit => 0,RaiseError => 1,} );
+
+sub toDB
+
+{my @datapack = @_;
+#  my (@datapack) = @_ ;
+  #print "$datapack[0]  $datapack[1] \n";
+  #print "$datapack[0]  $datapack[1] \t $datetimeGlobal \n";
+
+
+  my $sth = $dbh->prepare("INSERT INTO `macIP`(`mac`, `ip`, `date-time`) VALUES (?,?,?)");
+
+  $sth->execute($datapack[0],$datapack[1], "2016-7-7 12:22:22")  or die $DBI::errstr;
+  $sth->finish();
+  $dbh->commit or die $DBI::errstr;
+
+
+
+}
+
+
+#while ($continue) {
+     toDB("aaaaaaa","bbbbbbbbb");
+     
+     sleep(2000);
+#}

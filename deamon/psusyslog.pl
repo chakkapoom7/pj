@@ -10,7 +10,7 @@ use List::MoreUtils qw(uniq);
 use Proc::Daemon;
 Proc::Daemon::Init;
 my $continue = 1;
-my $SIG{TERM} = sub { $continue = 0 };
+$SIG{TERM} = sub { $continue = 0 };
 
 
 
@@ -282,8 +282,10 @@ $interval = $init[3];
 
 print "time interval = $interval min\n";
 print "switch address = $switch_v6address\n";
-prepare 
+
 
 while ($continue) {
      getValue($switch_v6address);
+     
+     sleep($interval);
 }
