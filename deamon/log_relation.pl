@@ -7,6 +7,8 @@ use Data::Dumper;
 use List::Util 'max';
 use List::MoreUtils qw(uniq);
 
+
+
 my $driver = "mysql";
 my $database = "proj";
 my $dsn = "DBI:$driver:database=$database";
@@ -212,8 +214,17 @@ sub toDB
 
 {my @datapack = @_;
 #  my (@datapack) = @_ ;
-  print "$datapack[0]  $datapack[1] \n";
-    #print "$datapack[0]  $datapack[1] \t $datetimeGlobal \n";
+  #print "$datapack[0]  $datapack[1] \n";
+  print "$datapack[0]  $datapack[1] \t $datetimeGlobal \n";
+
+
+  my $sth = $dbh->prepare("INSERT INTO `macIP`(`mac`, `ip`, `date-time`) VALUES (?,?,?)");
+
+  $sth->execute($datapack[0],$datapack[1], $datetimeGlobal)  or die $DBI::errstr;
+  $sth->finish();
+  $dbh->commit or die $DBI::errstr;
+
+
 
 }
 
