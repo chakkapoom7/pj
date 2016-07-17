@@ -1,48 +1,48 @@
 #!/bin/bash
 #
-# log_relation This starts and stops log_relation
+# test This starts and stops test
 #
 # chkconfig: 2345 12 88
-# description: log_relation is YYYYYYYYYYYYYYYYYYY
-# processname: log_relation
-# pidfile: /var/run/log_relation.pid
+# description: test is YYYYYYYYYYYYYYYYYYY
+# processname: test
+# pidfile: /var/run/test.pid
 ### BEGIN INIT INFO
-# Provides: $log_relation
+# Provides: $test
 ### END INIT INFO
 
 # Source function library.
 . /etc/init.d/functions
 
-binary="/etc/psulogsys/log_relation"
+binary="/etc/psulogsys/test"
 
 [ -x $binary ] || exit 0
 
 RETVAL=0
 
 start() {
-    echo -n "Starting log_relation: "
+    echo -n "Starting test: "
     daemon $binary
     RETVAL=$?
     PID=$!
     echo
-    [ $RETVAL -eq 0 ] && touch /var/lock/subsys/log_relation
+    [ $RETVAL -eq 0 ] && touch /var/lock/subsys/test
 
-    echo $PID > /var/run/log_relation.pid
+    echo $PID > /var/run/test.pid
 }
 
 stop() {
-    echo -n "Shutting down log_relation: "
-    killproc log_relation
+    echo -n "Shutting down test: "
+    killproc test
     RETVAL=$?
     echo
     if [ $RETVAL -eq 0 ]; then
-        rm -f /var/lock/subsys/log_relation
-        rm -f /var/run/log_relation.pid
+        rm -f /var/lock/subsys/test
+        rm -f /var/run/test.pid
     fi
 }
 
 restart() {
-    echo -n "Restarting log_relation: "
+    echo -n "Restarting test: "
     stop
     sleep 2
     start
@@ -56,7 +56,7 @@ case "$1" in
         stop
     ;;
     status)
-        status log_relation
+        status test
     ;;
     restart)
         restart

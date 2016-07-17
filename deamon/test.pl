@@ -41,8 +41,8 @@ sub toDB
 }
 
 
-#while ($continue) {
+while ($continue) {
      toDB("aaaaaaa","bbbbbbbbb");
      
      sleep(2000);
-#}
+}
