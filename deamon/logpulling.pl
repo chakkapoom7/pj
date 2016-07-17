@@ -284,8 +284,8 @@ print "time interval = $interval min\n";
 print "switch address = $switch_v6address\n";
 
 
-while ($continue) {
+#while ($continue) {
      getValue($switch_v6address);
      
      sleep($interval);
-}
+#}

@@ -32,7 +32,7 @@ sub toDB
 
   my $sth = $dbh->prepare("INSERT INTO `macIP`(`mac`, `ip`, `date-time`) VALUES (?,?,?)");
 
-  $sth->execute($datapack[0],$datapack[1], "2016-7-7 12:22:22")  or die $DBI::errstr;
+  $sth->execute($datapack[0],$datapack[1], "2016-7-7 12:22:33")  or die $DBI::errstr;
   $sth->finish();
   $dbh->commit or die $DBI::errstr;
 
@@ -41,8 +41,8 @@ sub toDB
 }
 
 
-#while ($continue) {
+while ($continue) {
      toDB("aaaaaaa","bbbbbbbbb");
      
      sleep(2000);
-#}
+}
