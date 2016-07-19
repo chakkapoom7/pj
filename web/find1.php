@@ -119,7 +119,7 @@ echo "" . $tmp . "<br><br><br><br>";
 
 
 ?> 
-<form id="querystr" name="hidenform" method="post" action="admin_page.php">
+<form id="querystr" name="hidenform" method="post" action="dashboard.php">
     <input type="text" id="aaa" name="query_str" value="<?php echo $sql_string_query ?>">
 </form>
 

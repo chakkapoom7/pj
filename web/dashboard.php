@@ -149,7 +149,7 @@
         
      </div><!--<jumbotron-->
                         
-<iframe src="infomation.php" width="100%" height="500px" id="iframe1" marginheight="0" frameborder="0" ></iframe>
+<iframe src="infomation.php" width="100%" height="700px" id="iframe1" marginheight="0" frameborder="0" ></iframe>
 
               
  

@@ -38,25 +38,26 @@
 
         <!-- Bootstrap core CSS -->
         <link href="./css/bootstrap.min.css" rel="stylesheet">
-        
+
     </head>
+
     <body>
         <!-- for table table
         <div class="table-responsive" style="margin-top: 0px;"> -->
-            <table class="table table-striped" style="margin-top: 0px;  padding:">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>ACC time start</th>
-                        <th>ACC time stop</th>
-                        <th>Type</th>
-                        <th>Physical Address</th>
-                        <th>IP Address</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <table class="table table-striped" style="margin-top: 0px;  padding:">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>ACC time start</th>
+                    <th>ACC time stop</th>
+                    <th>Type</th>
+                    <th>Physical Address</th>
+                    <th>IP Address</th>
+                </tr>
+            </thead>
+            <tbody>
 
-<?php
+                <?php
  // Connects to your Database
  mysql_connect("localhost", "root", "kks*5cvp768") or die(mysql_error());
  mysql_select_db("radius") or die(mysql_error());
@@ -70,13 +71,13 @@
                     
                     
  if($_POST[query_str] == ""){
-     $strquery = "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 30";
-//     echo "111";
-     //".$objResult["username"]"
+     $strquery = "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100";
  }
-// else{
-//    $strquery = $_POST[query_str];
-// }
+ else{
+    $strquery = $_POST[query_str];
+ }
+                    
+                    
 #query DB -----------------------------------------------------------------
  $data = mysql_query($strquery) or die(mysql_error());
 #print table ------------------------------------------------------------
@@ -85,17 +86,53 @@
     print "<tr>";
     print "<td>".$info['username']. "</td>";
     print "<td>".$info['acctstarttime']. "</td>";
-    print "<td>".$info['acctstoptime']. "</td>";
+      
+    if($info['acctstoptime']==""){
+        print "<td>connect until now</td>";
+    }else{
+        print "<td>".$info['acctstoptime']. "</td>";
+    }  
+      
+
     print "<td>".$info['nasporttype']. "</td>";
     print "<td>".$info['callingstationid']. "</td>";
+      
+      
 
-     //print "<td>".$info['ipv6']. "</td>";
-     //print "<td>".$info['time']. "</td>";
+      
+      
+     print "<td>";  
+      
+      if($info['acctstoptime'] == ""){
+          $strsubquery = "SELECT DISTINCT  ip FROM  proj.macIP WHERE  mac =  '".$info['callingstationid']."' AND 'date-time' >= '".$info['acctstarttime']."';";
+      }
+      else  {
+          $strsubquery = "SELECT DISTINCT  `ip` 
+FROM  `proj`.`macIP` 
+WHERE  `mac` =  '".$info['callingstationid']."'
+AND  `date-time` >=  '".$info['acctstarttime']."'
+AND  `date-time` <=  '".$info['acctstoptime']."';";
+      }
+      
+      #print $strsubquery."<br>";
+      
+      
+      $subdata = mysql_query($strsubquery) or die(mysql_error());
+
+      
+      
+      while($subinfo = mysql_fetch_array( $subdata ))
+      {
+           print $subinfo['ip']."<br>";
+      }
+      print "</td>";
+
+    
     print "</tr>";
   }
  ?>
-                </tbody>
-            </table>
+            </tbody>
+        </table>
         <!-- </div> -->
 
     </body>

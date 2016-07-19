@@ -13,3 +13,26 @@ FROM  `radacct`
 WHERE username =  'tua'
 ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC 
 LIMIT 0 , 30
+
+
+SELECT DISTINCT  `ip` 
+FROM  `macIP` 
+WHERE  `mac` =  "BC-EE-7B-53-4F-A0"
+AND `date-time` > '2016-07-18 23:50:00' 
+AND `date-time` < '2016-07-18 23:40:00' ;
+
+
+
+SELECT DISTINCT  `ip` 
+FROM  `macIP` 
+WHERE  `mac` =  "BC-EE-7B-53-4F-A0"
+AND `date-time` > '2016-07-18 23:50:00' 
+AND `date-time` < '2016-07-18 23:40:00' ;
+
+
+
+SELECT DISTINCT  `ip` 
+FROM `macIP` 
+WHERE
+date-time between '2016-07-18 23:40:00' AND '2016-07-18 23:50:00'
+AND  `mac` =  "BC-EE-7B-53-4F-A0";
