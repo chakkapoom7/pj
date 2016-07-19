@@ -8,13 +8,11 @@
 		exit();
 	}
 
-	if($_SESSION['permit'] != "ADMIN")
+	if($_SESSION["permit"] != "ADMIN")
 	{
-		//echo "you not have permission.";
-		$permit = Admin ;
-	}else{
-        $permit = user ;
-    }	
+		echo "you not have permission.";
+		exit();
+	}
 	
 	mysql_connect("localhost","root","kks*5cvp768");
 	mysql_select_db("radius");
@@ -126,7 +124,7 @@
                         <input type="date" name="date1">
                         <input type="time" name="time1">
 
-                        <label for="time">to</label>
+                        <label for="time">and</label>
 
                         <input type="date" name="date2">
                         <input type="time" name="time2">

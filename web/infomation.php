@@ -11,9 +11,9 @@
 	if($_SESSION['permit'] != "ADMIN")
 	{
 		//echo "you not have permission.";
-		$permit = Admin ;
+		$permit = user ;
 	}else{
-        $permit = user ;
+        $permit = admin ;
     }	
 	
 	mysql_connect("localhost","root","kks*5cvp768");

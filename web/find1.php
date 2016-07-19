@@ -1,33 +1,33 @@
 <?php
 	session_start();
-	if($_SESSION['UserID'] == "")
+	if($_SESSION['userid'] == "")
 	{
 		echo "Please Login!";
 		exit();
 	}
 
-	if($_SESSION['Status'] != "ADMIN")
+	if($_SESSION["permit"] != "ADMIN")
 	{
 		echo "you not have permission.";
 		exit();
 	}
-    #echo "username = " . $_POST['username'] . "<br>";
-    #echo "date1 = " . $_POST['date1'] . "<br>";
-    #echo "time1 = " . $_POST['time1'] . "<br>";
-    #echo "date2 = " . $_POST['date2'] . "<br>";
-    #echo "time2 = " . $_POST['time2'] . "<br>";
-    #echo "type = " . $_POST['type'] . "<br>";
-    #echo "string = " . $_POST['string'] . "<br><br><br>";
+    echo "username = " . $_POST['username'] . "<br>";
+    echo "date1 = " . $_POST['date1'] . "<br>";
+    echo "time1 = " . $_POST['time1'] . "<br>";
+    echo "date2 = " . $_POST['date2'] . "<br>";
+    echo "time2 = " . $_POST['time2'] . "<br>";
+    echo "type = " . $_POST['type'] . "<br>";
+    echo "string = " . $_POST['string'] . "<br><br><br>";
 
 #get userid from database------------------------------------------------------------------------------------------------------------------
-mysql_connect("localhost", "root", "kks*5cvp768") or die(mysql_error());
-mysql_select_db("proj") or die(mysql_error());
+mysql_connect("localhost","root","kks*5cvp768")or die(mysql_error());
+mysql_select_db("radius") or die(mysql_error());
 
- $tmp_string_user = "SELECT id FROM user WHERE user = '" . $_POST['usersearch'] . "'";
+$strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
      
-echo "<br>" . $tmp_string_user ."<br>";
- $ob_userid = mysql_query($tmp_string_user) or die(mysql_error());
- $objResult = mysql_fetch_array($ob_userid);
+$objQuery = mysql_query($strSQL);
+$objResult = mysql_fetch_array($objQuery);
+
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------
@@ -118,12 +118,13 @@ echo "" . $tmp . "<br><br><br><br>";
     $sql_string_query = $sql_string_query . $tmp ."ORDER BY time DESC ";
 
 
-?> 
-<form id="querystr" name="hidenform" method="post" action="dashboard.php">
-    <input type="text" id="aaa" name="query_str" value="<?php echo $sql_string_query ?>">
-</form>
+?>
+    <form id="querystr" name="hidenform" method="post" action="dashboard.php">
+        <input type="text" id="aaa" name="query_str" value="<?php echo $sql_string_query ?>">
+    </form>
 
 
-<script language="JavaScript">
-document.hidenform.submit();
-</script>
+    <script language="JavaScript">
+        //document.hidenform.submit();
+
+    </script>
