@@ -62,21 +62,40 @@
                     </button>
                     <a class="navbar-brand">User Log Management System</a>
                 </div>
-                <div id="navbar" class="navbar-collapse collapse">
+                <div id="navbar" class="navbar-collapse collapse" style="margin: 0.2cm;">
                     <ul class="nav navbar-nav navbar-right">
+
+
+
+                        <li><font color="white">
+                            <h5>User : <?php echo $objResult["username"];?>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            Permission : Admin 
+                                &nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                            </font>
+                        </li>
+
+
+
+                        <a href="logout.php" class="btn btn-danger" role="button">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span> logout
+                        </a>
+
+
+
                     </ul>
                 </div>
             </div>
         </nav>
 
         <div class="container-fluid">
-            <div class="row">
+            <!----
                 <div class="col-sm-3 col-md-2 sidebar">
 
                     <ul class="nav nav-sidebar" style="padding:0px 10px 0px 10px ">
                         <div class="jumbotron" style="padding:10px 10px 5px 10px">
                             <li>
-                                <h4>User : <?php echo $objResult["username"];?></h4></li>
+                                <h4>User : <?php # echo $objResult["username"];?></h4></li>
                             <li>
                                 <h5>Permission : Admin</h5></li>
                             <p>
@@ -91,63 +110,50 @@
                     </ul>
 
                 </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> --->
 
-                    <div class="jumbotron " style="padding:30px 50px 20px 50px" align="left">
-
-
+            <div class="jumbotron " style="border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
 
 
 
+                <form class="form-signin" name="form0" method="post" action="find1.php">
 
+                    <input type="hidden" id="aaa" name="username" value=<?php echo $objResult[ "Username"] ?>>
 
+                    <div align="center">
+                        <label for="time">date time between </label>
 
+                        <input type="date" name="date1">
+                        <input type="time" name="time1">
 
+                        <label for="time">to</label>
 
-                        <form class="form-signin" name="form0" method="post" action="find1.php">
+                        <input type="date" name="date2">
+                        <input type="time" name="time2">
 
-                            <input type="hidden" id="aaa" name="username" value=<?php echo $objResult[ "Username"] ?>>
+                        <br>
 
-                            <div align="center">
-                                <label for="time">date time between </label>
+                        <input type="radio" name="type" value="4" checked> IP(v4) Address &nbsp&nbsp&nbsp
+                        <input type="radio" name="type" value="6"> IP(v6) Address &nbsp&nbsp&nbsp
+                        <input type="radio" name="type" value="0"> Mac Address &nbsp&nbsp
+                        <input type="text" class="form-control" style="width: 70%;" name="string" placeholder=" Address">
 
-                                <input type="date" name="date1">
-                                <input type="time" name="time1">
+                        <input type="text" class="form-control" style="width: 70%;" name="usersearch" placeholder=" User">
 
-                                <label for="time">to</label>
+                    </div>
 
-                                <input type="date" name="date2">
-                                <input type="time" name="time2">
-
-                                <br>
-
-                                <input type="radio" name="type" value="4" checked> IP(v4) Address &nbsp&nbsp&nbsp
-                                <input type="radio" name="type" value="6"> IP(v6) Address &nbsp&nbsp&nbsp
-                                <input type="radio" name="type" value="0"> Mac Address &nbsp&nbsp
-                                <input type="text" class="form-control" style="width: 70%;" name="string" placeholder=" Address">
-
-                                <input type="text" class="form-control" style="width: 70%;" name="usersearch" placeholder=" User">
-
-                            </div>
-
-
-                            <div align="right">
-                                <button class="btn btn-primary" role="button" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"> Search</button>
+                    <div align="right">
+                        <button class="btn btn-primary" role="button" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"> Search</button>
         </div>
       </form>
         
-     </div><!--jumbotron-->
+     </div><!--<jumbotron-->
                         
 <iframe src="infomation.php" width="100%" height="500px" id="iframe1" marginheight="0" frameborder="0" ></iframe>
 
-            
-            
-            
               
-          </div>
-            
-          </div>
-      </div>
+ 
+
 
 
     <!-- Bootstrap core JavaScript

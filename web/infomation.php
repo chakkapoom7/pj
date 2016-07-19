@@ -23,8 +23,6 @@
 	$objResult = mysql_fetch_array($objQuery);
 ?>
 
-
-
     <html lang="en">
 
     <head>
@@ -40,28 +38,20 @@
 
         <!-- Bootstrap core CSS -->
         <link href="./css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Custom styles for this template -->
-        <link href="./css/dashboard.css" rel="stylesheet">
-
-
-
-
+        
     </head>
-
     <body>
-
-
-
-        <!-- for table table-->
-        <div class="table-responsive">
-            <table class="table table-striped">
+        <!-- for table table
+        <div class="table-responsive" style="margin-top: 0px;"> -->
+            <table class="table table-striped" style="margin-top: 0px;  padding:">
                 <thead>
                     <tr>
+                        <th>Username</th>
                         <th>ACC time start</th>
                         <th>ACC time stop</th>
                         <th>Type</th>
                         <th>Physical Address</th>
+                        <th>IP Address</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,8 +69,6 @@
 #define sql str query------------------------------------------------------------------
                     
                     
-                    
-                    
  if($_POST[query_str] == ""){
      $strquery = "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 30";
 //     echo "111";
@@ -95,10 +83,12 @@
   while($info = mysql_fetch_array( $data ))
   {
     print "<tr>";
-     print "<td>".$info['acctstarttime']. "</td>";
-     print "<td>".$info['acctstoptime']. "</td>";
-     print "<td>".$info['nasporttype']. "</td>";
-     print "<td>".$info['callingstationid']. "</td>";
+    print "<td>".$info['username']. "</td>";
+    print "<td>".$info['acctstarttime']. "</td>";
+    print "<td>".$info['acctstoptime']. "</td>";
+    print "<td>".$info['nasporttype']. "</td>";
+    print "<td>".$info['callingstationid']. "</td>";
+
      //print "<td>".$info['ipv6']. "</td>";
      //print "<td>".$info['time']. "</td>";
     print "</tr>";
@@ -106,7 +96,7 @@
  ?>
                 </tbody>
             </table>
-        </div>
+        <!-- </div> -->
 
     </body>
 
