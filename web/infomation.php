@@ -42,6 +42,10 @@
     </head>
 
     <body>
+       
+        
+        
+        
         <!-- for table table
         <div class="table-responsive" style="margin-top: 0px;"> -->
         <table class="table table-striped" style="margin-top: 0px;  padding:">
@@ -104,7 +108,14 @@
      print "<td>";  
       
       if($info['acctstoptime'] == ""){
-          $strsubquery = "SELECT DISTINCT  ip FROM  proj.macIP WHERE  mac =  '".$info['callingstationid']."' AND 'date-time' >= '".$info['acctstarttime']."';";
+          
+          $strsubquery = "SELECT DISTINCT  `ip` 
+FROM  `proj`.`macIP` 
+WHERE  `mac` =  '".$info['callingstationid']."'
+AND  `date-time` >=  '".$info['acctstarttime']."'
+AND  `date-time` <=  '".date("Y-m-d H:i:sa")."';";
+          
+
       }
       else  {
           $strsubquery = "SELECT DISTINCT  `ip` 

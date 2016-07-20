@@ -10,8 +10,8 @@
 
 	if($_SESSION["permit"] != "ADMIN")
 	{
-		echo "you not have permission.";
-		exit();
+		#echo "you not have permission.";
+		#exit();
 	}
 	
 	mysql_connect("localhost","root","kks*5cvp768");
@@ -68,7 +68,7 @@
                         <li><font color="white">
                             <h5>User : <?php echo $objResult["username"];?>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                            Permission : Admin 
+                            Permission : <?php echo $_SESSION["permit"]; ?> 
                                 &nbsp;&nbsp;&nbsp;&nbsp;</h5>
                             </font>
                         </li>
@@ -86,7 +86,7 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
+        <div class="container-fluid" style="margin-top: 20px;">
             <!----
                 <div class="col-sm-3 col-md-2 sidebar">
 
@@ -95,7 +95,7 @@
                             <li>
                                 <h4>User : <?php # echo $objResult["username"];?></h4></li>
                             <li>
-                                <h5>Permission : Admin</h5></li>
+                                <h5>Permission : <?php echo $_SESSION["permit"]; ?></h5></li>
                             <p>
                                 <div align="right"><a href="logout.php" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> logout</a></div>
                             </p>
@@ -108,13 +108,20 @@
                     </ul>
 
                 </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> --->
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> -->
 
+            
+            
+            
+            
+            <!--
+            
+            
             <div class="jumbotron " style="border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
 
 
 
-                <form class="form-signin" name="form0" method="post" action="find1.php">
+                <form class="form-signin" name="form0" method="post" action="fillter.php">
 
                     <input type="hidden" id="aaa" name="username" value=<?php echo $objResult[ "Username"] ?>>
 
@@ -145,9 +152,8 @@
         </div>
       </form>
         
-     </div><!--<jumbotron-->
-                        
-<iframe src="infomation.php" width="100%" height="700px" id="iframe1" marginheight="0" frameborder="0" ></iframe>
+     </div>        -->
+<iframe src="infomation.php" width="100%" height="900px" id="iframe1" marginheight="0" frameborder="0" ></iframe>
 
               
  
