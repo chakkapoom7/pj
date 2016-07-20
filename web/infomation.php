@@ -73,9 +73,14 @@
 
 #define sql str query------------------------------------------------------------------
                     
-                    
+                    ##WHERE username =  '".$objResult["username"]."'
  if($_POST[query_str] == ""){
-     $strquery = "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100";
+     if($_SESSION['permit'] == "ADMIN"){
+         $strquery = "SELECT * FROM radacct  ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100";
+     }
+     else{
+         $strquery = "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100";
+     }
  }
  else{
     $strquery = $_POST[query_str];

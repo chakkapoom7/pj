@@ -87,33 +87,50 @@
         </nav>
 
         <div class="container-fluid" style="margin-top: 20px;">
-            <!----
-                <div class="col-sm-3 col-md-2 sidebar">
-
-                    <ul class="nav nav-sidebar" style="padding:0px 10px 0px 10px ">
-                        <div class="jumbotron" style="padding:10px 10px 5px 10px">
-                            <li>
-                                <h4>User : <?php # echo $objResult["username"];?></h4></li>
-                            <li>
-                                <h5>Permission : <?php echo $_SESSION["permit"]; ?></h5></li>
-                            <p>
-                                <div align="right"><a href="logout.php" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> logout</a></div>
-                            </p>
-                        </div>
-
-                        <li class="active"><a href="admin_page.php">userlog data<span class="sr-only">(current)</span></a></li>
-                        <li><a href="admin_useredit.php">edit user</a></li>
-                        <li><a href="admin_addmember.php">add new user</a></li>
-
-                    </ul>
-
-                </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> -->
-
+            <?php 
+            if($_SESSION["permit"] == "ADMIN"){
+            print '
             
             
             
-            
+
+
+            <div class="col-sm-3 col-md-2 sidebar">
+
+                <ul class="nav nav-sidebar" style="padding:0px 10px 0px 10px ">
+                    <div class="jumbotron" style="padding:10px 10px 5px 10px">
+                        <li>
+                            <h4>User :  '.$objResult["username"].'
+                </h4>
+                </li>
+                <li>
+                    <h5>Permission : '. $_SESSION["permit"].' </h5></li>
+                <p>
+                    <div align="right"><a href="logout.php" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> logout</a></div>
+                </p>
+        </div>
+
+        <!-- class="active" -->
+
+        <li><a href="infomation.php" target="iframe555">userlog data<span class="sr-only">(current)</span></a></li>
+
+        <li><a href="logclean.php" target="iframe555">remove old data</a></li>
+
+
+        </ul>
+
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+
+
+            '; } ?>
+
+
+
+
+
+
             <!--
             
             
@@ -153,17 +170,18 @@
       </form>
         
      </div>        -->
-<iframe src="infomation.php" width="100%" height="900px" id="iframe1" marginheight="0" frameborder="0" ></iframe>
-
-              
- 
+            <iframe src="infomation.php" width="100%" height="900px" name="iframe555" marginheight="0" frameborder="0"></iframe>
 
 
 
-    <!-- Bootstrap core JavaScript
+
+
+
+            <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="./js/bootstrap.min.js"></script>
-  </body>
-</html>
+            <!-- Placed at the end of the document so the pages load faster -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <script src="./js/bootstrap.min.js"></script>
+    </body>
+
+    </html>

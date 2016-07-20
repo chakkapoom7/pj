@@ -48,7 +48,7 @@ echo $objResult2[userid];
 			}
 			else if($permittion == "USER")
 			{
-				header("location:userpage.php");
+				header("location:dashboard.php");
 			}
             else
             {
