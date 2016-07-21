@@ -131,8 +131,8 @@
 
 
 
+          
             <!--
-            
             
             <div class="jumbotron " style="border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
 
@@ -169,7 +169,10 @@
         </div>
       </form>
         
-     </div>        -->
+     </div>      -->
+                
+                
+                
             <iframe src="infomation.php" width="100%" height="900px" name="iframe555" marginheight="0" frameborder="0"></iframe>
 
 

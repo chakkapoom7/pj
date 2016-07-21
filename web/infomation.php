@@ -42,8 +42,44 @@
     </head>
 
     <body>
-       
+
+        <div class="jumbotron " style="border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
+
+
+
+            <form class="form-signin" name="form0" method="post" action="fillter.php">
+
+                <input type="hidden" id="aaa" name="username" value=<?php echo $objResult[ "Username"] ?>>
+
+                <div align="center">
+                    <label for="time">date time between </label>
+
+                    <input type="date" name="date1">
+                    <input type="time" name="time1">
+
+                    <label for="time">and</label>
+
+                    <input type="date" name="date2">
+                    <input type="time" name="time2">
+
+                    <br>
+
+                    <input type="radio" name="type" value="4" checked> IP(v4) Address &nbsp&nbsp&nbsp
+                    <input type="radio" name="type" value="6"> IP(v6) Address &nbsp&nbsp&nbsp
+                    <input type="radio" name="type" value="0"> Mac Address &nbsp&nbsp
+                    <input type="text" class="form-control" style="width: 70%;" name="string" placeholder=" Address">
+
+                    <input type="text" class="form-control" style="width: 70%;" name="usersearch" placeholder=" User">
+
+                </div>
+
+
+                <div align="right">
+                    <button class="btn btn-primary" role="button" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"> Search</button>
+        </div>
+      </form>
         
+     </div> 
         
         
         <!-- for table table

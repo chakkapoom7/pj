@@ -6,36 +6,42 @@
 		exit();
 	}
 
-	if($_SESSION["permit"] != "ADMIN")
-	{
-		echo "you not have permission.";
-		exit();
-	}
-    echo "username = " . $_POST['username'] . "<br>";
-    echo "date1 = " . $_POST['date1'] . "<br>";
+	echo "date1 = " . $_POST['date1'] . "<br>";
     echo "time1 = " . $_POST['time1'] . "<br>";
     echo "date2 = " . $_POST['date2'] . "<br>";
     echo "time2 = " . $_POST['time2'] . "<br>";
     echo "type = " . $_POST['type'] . "<br>";
     echo "string = " . $_POST['string'] . "<br><br><br>";
 
-#get userid from database------------------------------------------------------------------------------------------------------------------
-mysql_connect("localhost","root","kks*5cvp768")or die(mysql_error());
-mysql_select_db("radius") or die(mysql_error());
 
-$strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
-     
-$objQuery = mysql_query($strSQL);
-$objResult = mysql_fetch_array($objQuery);
+
+	mysql_connect("localhost","root","kks*5cvp768");
+	mysql_select_db("radius");
+	$strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
+	$objQuery = mysql_query($strSQL);
+	$objResult = mysql_fetch_array($objQuery);
+
+
+// Connects to your Database
+ mysql_connect("localhost", "root", "kks*5cvp768") or die(mysql_error());
+ mysql_select_db("radius") or die(mysql_error());
+
+ #find userid on log table------------------------------------------------------------
+ $tmp_string_user = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
+ $ob_userid = mysql_query($tmp_string_user) or die(mysql_error());
+ $objuserResult = mysql_fetch_array($ob_userid);
 
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    $sql_string_query = "SELECT a.id,b.user,c.address AS mac,d.ip AS ipv4,e.ip AS ipv6,a.time FROM log a LEFT JOIN user b ON a.userid=b.id LEFT JOIN mac c ON a.macid=c.id LEFT JOIN v4 d ON a.v4id=d.id LEFT JOIN v6 e ON a.v6id=e.id ";
 
-#a.userid='" . $objResult[id] . "'
+
+ $sql_string_query = "SELECT * FROM radacct  ";
+    
+
+
 
     $tmp = "";
 
@@ -86,16 +92,18 @@ $objResult = mysql_fetch_array($objQuery);
         $tmp_string_user = "SELECT id FROM user WHERE user = '" . $_POST['usersearch'] . "'";
      
         echo "<br>" . $tmp_string_user ."<br>";
-        $ob_userid = mysql_query($tmp_string_user) or die(mysql_error());
-        $objResult = mysql_fetch_array($ob_userid);
+// $ob_userid = mysql_query($tmp_string_user) or die(mysql_error());
+        //$objResult = mysql_fetch_array($ob_userid);
         
         
         $tmp = $tmp . " AND a.userid='" . $objResult[id] . "'" ;
     }
-    
+ 
 
 
-echo "" . $tmp . "<br><br><br><br>";
+
+
+//echo "" . $tmp . "<br><br>";
 
     if($tmp != ""){
         $tmp = " WHERE" . substr($tmp,4) ;
@@ -115,11 +123,13 @@ echo "" . $tmp . "<br><br><br><br>";
     echo '</pre>';
 
 
-    $sql_string_query = $sql_string_query . $tmp ."ORDER BY time DESC ";
+    $sql_string_query = $sql_string_query . $tmp ."ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC";
+
+    echo $sql_string_query."<br>";
 
 
 ?>
-    <form id="querystr" name="hidenform" method="post" action="dashboard.php">
+    <form id="querystr" name="hidenform" method="post" action="infomation.php">
         <input type="text" id="aaa" name="query_str" value="<?php echo $sql_string_query ?>">
     </form>
 
