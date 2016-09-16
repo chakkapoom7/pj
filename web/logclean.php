@@ -45,14 +45,14 @@
 
         <div class="jumbotron " style="border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
 
-            <a href="logout.php" class="btn btn-danger" role="button">
+            <a href="logout.php" target="_parent" class="btn btn-danger" role="button">
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> more than 90 days
             </a>
             ลบข้อมูลที่มีอายุมากกว่า 90 วัน
             <br>
             <br>
             <br>
-            <a href="logout.php" class="btn btn-warning" role="button">
+            <a href="logout.php" target="_parent" class="btn btn-warning" role="button">
                 <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> more than 2 years
             </a>
             ลบข้อมูลที่มีอายุมากกว่า 2 ปี
