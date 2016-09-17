@@ -24,6 +24,7 @@
         <form class="form-signin" name="form0" method="post" action="check_login.php">
             
             <?php
+                
                 $laststate = $_GET['error'];
             
                 if($laststate == '1'){
