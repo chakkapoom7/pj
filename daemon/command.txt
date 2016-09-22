@@ -1,7 +1,6 @@
 snmpwalk -c public -v 1 udp6:[2001:3c8:9009:181::1] IP-MIB::ipNetToPhysicalPhysAddress
 V6
 
-
 snmpwalk -c public -v 1 udp6:[2001:3c8:9009:181::1] IP-MIB::ipNetToMediaPhysAddress
 V4
 
@@ -14,6 +13,11 @@ snmpwalk -c public -v 1 udp6:[fdb6:6590:52b4::1] IP-MIB::ipNetToPhysicalPhysAddr
 snmpwalk -c public -v 1 udp6:[fdb6:6590:52b4::1] IP-MIB::ipNetToMediaPhysAddress
 
 # background run
+
 setsid $programname
+
+
 or
-($programname &)
+
+
+($programname &) ‡«‘√Ï§
