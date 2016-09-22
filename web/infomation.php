@@ -1,5 +1,13 @@
 <!DOCTYPE html>
+
+
+
+
+
 <?php
+
+#####  session check  
+
 	session_start();
 	if($_SESSION['userid'] == "")
 	{
@@ -23,6 +31,27 @@
 	$objResult = mysql_fetch_array($objQuery);
 ?>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <html lang="en">
 
     <head>
@@ -43,9 +72,12 @@
 
     <body>
 
+
+
+
+        <!-- serachbox -->
+
         <div class="jumbotron " style="border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
-
-
 
             <form class="form-signin" name="form0" method="post" action="fillter.php">
 
@@ -79,8 +111,13 @@
         </div>
       </form>
         
-     </div> 
+      </div> 
+      <!-- finish searchbox -->  
         
+
+
+
+
         
         <!-- for table table
         <div class="table-responsive" style="margin-top: 0px;"> -->
@@ -109,7 +146,7 @@
 
 #define sql str query------------------------------------------------------------------
                     
-                    ##WHERE username =  '".$objResult["username"]."'
+ ##WHERE username =  '".$objResult["username"]."'
  if($_POST[query_str] == ""){
      if($_SESSION['permit'] == "ADMIN"){
          $strquery = "SELECT * FROM radacct  ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100";
