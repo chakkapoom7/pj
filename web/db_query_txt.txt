@@ -1,0 +1,20 @@
+============ fillter ===============
+from date-time to date-time
+"SELECT * FROM radacct  ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100"
+"SELECT DISTINCT  `ip` FROM `macIP` WHERE date-time between '2016-07-19 13:01:02' AND '2016-07-19 16:59:12' AND  `mac` =  "BC-EE-7B-53-4F-A0";
+SELECT DISTINCT  `ip` FROM  `macIP` WHERE  `mac` =  "BC-EE-7B-53-4F-A0" AND `date-time` >= '2016-07-19 13:01:02' AND `date-time` <= '2016-07-19 16:59:12' ;
+"SELECT * FROM radacct  WHERE acctstarttime  between STR_TO_DATE( $acctstarttime_begin,  '%Y-%m-%d %H:%i:%s' ) AND STR_TO_DATE( $acctstarttime_end,  '%Y-%m-%d %H:%i:%s' )  ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100"
+ 
+from user
+"SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100"
+
+AND username =  '".$objResult["username"]."'
+
+
+from address
+"SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100"
+AND 
+
+
+delete 
+"DELETE FROM table_name WHERE some_column = some_value"
