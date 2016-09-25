@@ -129,6 +129,11 @@
 
 
 ?>
+<br><br><br><br><br>
+ strquery should =  <br> <br> 
+ "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100"
+ <br><br><br><br><br>
+
     <form id="querystr" name="hidenform" method="post" action="infomation.php">
         <input type="text" id="aaa" name="query_str" value="<?php echo $sql_string_query ?>">
     </form>

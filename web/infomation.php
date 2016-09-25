@@ -101,10 +101,18 @@
                     <input type="radio" name="type" value="0"> Mac Address &nbsp&nbsp
                     <input type="text" class="form-control" style="width: 70%;" name="string" placeholder=" Address">
 
-                    <input type="text" class="form-control" style="width: 70%;" name="usersearch" placeholder=" User">
 
+                <?php
+                  if($_SESSION['permit'] == "ADMIN"){
+                    echo '
+   
+                          <input type="text" class="form-control" style="width: 70%;" name="usersearch" placeholder=" User">
+                      
+                      ';
+                  }
+
+                ?>
                 </div>
-
 
                 <div align="right">
                     <button class="btn btn-primary" role="button" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"> Search</button>
@@ -114,6 +122,17 @@
       </div> 
       <!-- finish searchbox -->  
         
+
+
+
+
+        
+
+
+
+
+
+
 
 
 
@@ -134,7 +153,7 @@
             </thead>
             <tbody>
 
-                <?php
+  <?php
  // Connects to your Database
  mysql_connect("localhost", "root", "kks*5cvp768") or die(mysql_error());
  mysql_select_db("radius") or die(mysql_error());
