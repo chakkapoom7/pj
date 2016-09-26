@@ -42,7 +42,9 @@
         <!-- Custom styles for this template -->
         <link href="./css/dashboard.css" rel="stylesheet">
 
-
+        <!-- Bootstrap core CSS -->
+        <script src="./js/jquery-3.1.1.min.js"></script>
+        <script src="./js/bootstrap.min.js"></script>
 
 
     </head>
@@ -114,8 +116,7 @@
 
         <li><a href="infomation.php" target="iframe555">userlog data<span class="sr-only">(current)</span></a></li>
 
-        <li><a href="logclean.php" target="iframe555">remove old data</a></li>
-
+        <li><a href="#" data-toggle="modal" data-target="#myModal">remove old data</a></li>
 
         </ul>
 
@@ -124,66 +125,106 @@
 
 
 
-            '; } ?>
+    
 
 
 
-
-
-
-          
-            <!--
-            
-            <div class="jumbotron " style="border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
-
-
-
-                <form class="form-signin" name="form0" method="post" action="fillter.php">
-
-                    <input type="hidden" id="aaa" name="username" value=<?php echo $objResult[ "Username"] ?>>
-
-                    <div align="center">
-                        <label for="time">date time between </label>
-
-                        <input type="date" name="date1">
-                        <input type="time" name="time1">
-
-                        <label for="time">and</label>
-
-                        <input type="date" name="date2">
-                        <input type="time" name="time2">
-
-                        <br>
-
-                        <input type="radio" name="type" value="4" checked> IP(v4) Address &nbsp&nbsp&nbsp
-                        <input type="radio" name="type" value="6"> IP(v6) Address &nbsp&nbsp&nbsp
-                        <input type="radio" name="type" value="0"> Mac Address &nbsp&nbsp
-                        <input type="text" class="form-control" style="width: 70%;" name="string" placeholder=" Address">
-
-                        <input type="text" class="form-control" style="width: 70%;" name="usersearch" placeholder=" User">
-
-                    </div>
-
-                    <div align="right">
-                        <button class="btn btn-primary" role="button" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"> Search</button>
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">remove lod data</h4>
         </div>
-      </form>
-        
-     </div>      -->
-                
-                
-                
-            <iframe src="infomation.php" width="100%" height="900px" name="iframe555" marginheight="0" frameborder="0"></iframe>
+        <div class="modal-body">
+          <a class="btn btn-danger" role="button" data-dismiss="modal"  data-toggle="modal" data-target=#myModal90d>
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> more than 90 days
+            </a>
+            ลบข้อมูลที่มีอายุมากกว่า 90 วัน
+            <br>
+            <br>
+            <br>
+            <a class="btn btn-warning" role="button" data-dismiss="modal" data-toggle="modal" data-target=#myModal2y>
+                <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> more than 2 years
+            </a>
+            ลบข้อมูลที่มีอายุมากกว่า 2 ปี
+            <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+
+  <!-- Modal 90d-->
+  <div class="modal fade" id="myModal90d" role="dialog">
+    <div class="modal-dialog modal-sm">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.    90 d</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" >yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+<!-- Modal 2y-->
+  <div class="modal fade" id="myModal2y" role="dialog">
+    <div class="modal-dialog modal-sm">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.     2y</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" >yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+ '; } ?>
 
 
 
+<iframe src="infomation.php" width="100%" height="900px" name="iframe555" marginheight="0" frameborder="0"></iframe>
 
 
 
             <!-- Bootstrap core JavaScript
     ================================================== -->
             <!-- Placed at the end of the document so the pages load faster -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <script src="./js/jquery-3.1.1.min.js"></script>
             <script src="./js/bootstrap.min.js"></script>
     </body>
 
