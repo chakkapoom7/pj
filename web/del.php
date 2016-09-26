@@ -1,61 +1,71 @@
 <?php
+
+#####  session check  
+
 	session_start();
+	if($_SESSION['userid'] == "")
+	{
+		echo "Please Login!";
+        header("location:index.php?error=3");
+		exit();
+	}
+
+	if($_SESSION['permit'] != "ADMIN")
+	{
+		//echo "you not have permission.";
+		$permit = user ;
+	}else{
+        $permit = admin ;
+    }	
 	
-
-
-    mysql_connect("localhost","root","kks*5cvp768");
-
-
+	mysql_connect("localhost","root","kks*5cvp768");
 	mysql_select_db("radius");
-	$strSQL = "SELECT * FROM radcheck WHERE username = '".mysql_real_escape_string($_POST['txtUsername'])."' 
-	and value = '".mysql_real_escape_string($_POST['txtPassword'])."'";
+	$strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
 	$objQuery = mysql_query($strSQL);
 	$objResult = mysql_fetch_array($objQuery);
 
-    mysql_select_db("proj");
-	$strSQL2 = "SELECT * FROM permit WHERE userid = '".mysql_real_escape_string($objResult[id])."' 
-	";
-	$objQuery2 = mysql_query($strSQL2);
-	$objResult2 = mysql_fetch_array($objQuery2);
-	
 
-echo $_POST['txtUsername']."".$_POST['txtPassword']." --//-- ".$objResult[username]."".$objResult[value];
-
-if(!$objResult2){
-   $permittion = "USER";
-}else{
-    $permittion = "ADMIN";
-}
-
-echo $objResult2[userid];
-
-
-    if(!$objResult)
-	{	
-        //echo " <h1><center> <br> ชื่อผู้ใช้ไม่ถูกต้อง <br><br> Username and Password Incorrect! </center></h1>";
-        header("location:index.php?error=1");
-	}	
-    else
-    {
-			$_SESSION["userid"] = $objResult["id"];
-			$_SESSION["permit"] = $permittion;
-
-			session_write_close();
-			
-			if($permittion == "ADMIN")
-			{
-				header("location:dashboard.php");
-			}
-			else if($permittion == "USER")
-			{
-				header("location:dashboard.php");
-			}
-            else
-            {
-                header("location:index.php?error=2");
-
-            }
-	}   
-
-	mysql_close();
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="../../favicon.ico">
+
+        <title>Dashboard Template for Bootstrap</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+<center>
+<h2>
+
+<?php  
+
+if($_POST[query_str] == "longterm"){
+	
+	$str_demo = "ลบข้อมลย้อนหลัง 2 ปีแล้ว";
+
+}else if($_POST[query_str] == "shortterm"){
+
+	$str_demo = "ลบข้อมลย้อนหลัง 90 วันแล้ว";
+
+}
+	echo $str_demo;
+
+?>
+
+</h2>
+</center>
+    </body>
