@@ -146,7 +146,7 @@
                     <th>Username</th>
                     <th>ACC time start</th>
                     <th>ACC time stop</th>
-                    <th>Type</th>
+                    <th>Device Vender</th>
                     <th>Physical Address</th>
                     <th>IP Address</th>
                 </tr>
@@ -154,6 +154,17 @@
             <tbody>
 
   <?php
+     # macvendor lib
+
+    include "lib/MacvendorsApi.php";
+    use \macvendors_co;
+
+    $api = new \macvendors_co\MacVendorsApi();
+
+
+
+
+
  // Connects to your Database
  mysql_connect("localhost", "root", "kks*5cvp768") or die(mysql_error());
  mysql_select_db("radius") or die(mysql_error());
@@ -194,8 +205,8 @@
         print "<td>".$info['acctstoptime']. "</td>";
     }  
       
-
-    print "<td>".$info['nasporttype']. "</td>";
+    $vendor = $api->get_vendor ($info['callingstationid'],'csv');
+    print "<td>".$vendor['company']. "</td>"; #===========================
     print "<td>".$info['callingstationid']. "</td>";
       
       
