@@ -211,6 +211,16 @@ sub getv4{
     @arraynew99 = uniq @arraynew88;
   }
 
+
+# find record from radact  wich $datetimeGlobal in range or (>start time and stoptime==null)
+# and loop check by mac if have same mac more than 1 reccord  add stoptime of first reccord from start time of last reccord
+
+
+# add [ radacct ref | mac ] to hash array
+ 
+#loop check by radactt data if ip not ever add  -->  add [ radacct ref |  ip | date time ]  and send data to DB 
+
+
   return @bbb;
 }
 
