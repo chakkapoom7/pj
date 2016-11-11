@@ -17,3 +17,26 @@ AND
 
 delete 
 "DELETE FROM table_name WHERE some_column = some_value"
+
+
+
+SELECT * FROM radacct  
+
+WHERE  
+
+STR_TO_DATE( `acctstarttime` ,  '%Y-%m-%d %H:%i:%s' ) > '2016-11-10 00:00:00'
+
+AND 
+
+STR_TO_DATE( `acctstoptime` ,  '%Y-%m-%d %H:%i:%s' ) <  '2016-11-11 00:00:00'
+
+
+
+acctstarttime  between STR_TO_DATE( $acctstarttime_begin,  '%Y-%m-%d %H:%i:%s' ) AND STR_TO_DATE( $acctstarttime_end,  '%Y-%m-%d %H:%i:%s' )  ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100
+
+==================================
+SELECT acctstarttime, acctstoptime, radacctid, callingstationid
+FROM radacct
+WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <  '2016-11-07 15:40:58'
+AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >  '2016-11-07 15:40:58'
+========================================
