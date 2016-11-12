@@ -8,14 +8,25 @@ use List::Util 'max';
 use List::MoreUtils qw(uniq);
 use File::Basename;
 
-
+# MYSQL CONFIG VARIABLES
 my $driver = "mysql";
-my $database = "proj";
-my $dsn = "DBI:$driver:database=$database";
 my $userid = "root";
 my $password = "kks*5cvp768";
+my $radhost = "localhost";
+my $loghost = "localhost";
 
+
+my $database = "proj";
+
+my $database2 = "radius";
+
+my $dsn = "DBI:$driver:database=$database:$loghost";
+my $dsn2 = "DBI:$driver:database=$database2:$radhost";
+
+# PERL MYSQL CONNECT()
 my $dbh = DBI->connect($dsn, $userid, $password , {AutoCommit => 0,RaiseError => 1,} );
+my $dbh2 = DBI->connect($dsn2, $userid, $password , {AutoCommit => 0,RaiseError => 1,} );
+
 
 my @init;
 my $switch_v6address;
@@ -212,7 +223,25 @@ sub getv4{
   }
 
 
-# find record from radact  wich $datetimeGlobal in range or (>start time and stoptime==null)
+
+# find record from radact  wich $datetimeGlobal in range or (>start time and stoptime==null) order by starttime dec
+  
+  my $strquery1 = "SELECT acctstarttime, acctstoptime, radacctid, callingstationid FROM radacct WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <  '$datetimeGlobal' AND ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >  '$datetimeGlobal'   OR acctstoptime IS NULL ) ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC ";
+  
+  print "$strquery1 \n";
+
+  my $sth2 = $dbh2->prepare("$strquery1");
+
+ # $sth2->execute($datapack[0],$datapack[1], $datetimeGlobal)  or die $DBI::errstr;
+ # $sth2->finish();
+ # $dbh2->commit or die $DBI::errstr;
+
+
+ 
+
+
+
+
 # and loop check by mac if have same mac more than 1 reccord  add stoptime of first reccord from start time of last reccord
 
 
@@ -266,7 +295,7 @@ sub getValue{
 
 
 
-#getv4($taget_v6address);
+getv4($taget_v6address);
 
 # v4 to DB
 
@@ -313,6 +342,6 @@ print "switch address = $switch_v6address\n";
 
 getValue($switch_v6address);
 #while(1){
-#    getValue($switch_v6address);
+   # getValue($switch_v6address);
 #    sleep($interval);
 #}

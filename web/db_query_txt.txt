@@ -38,5 +38,19 @@ acctstarttime  between STR_TO_DATE( $acctstarttime_begin,  '%Y-%m-%d %H:%i:%s' )
 SELECT acctstarttime, acctstoptime, radacctid, callingstationid
 FROM radacct
 WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <  '2016-11-07 15:40:58'
-AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >  '2016-11-07 15:40:58'
+AND (
+STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >  '2016-11-07 15:40:58'
+
+)
+ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC 
 ========================================
+
+SELECT acctstarttime, acctstoptime, radacctid, callingstationid
+FROM radacct
+WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <  '2016-11-07 15:40:58'
+AND (
+	STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >  '2016-11-07 15:40:58'
+	OR
+    	acctstoptime IS NULL 
+)
+ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC 
