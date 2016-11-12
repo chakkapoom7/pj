@@ -36,7 +36,7 @@ my $datetimeGlobal;
 
 my @arraynew88;
 my @arraynew99;
-
+my %hash00;
 
 sub ecchor {
 
@@ -224,21 +224,6 @@ sub getv4{
 
 
 
-# find record from radact  wich $datetimeGlobal in range or (>start time and stoptime==null) order by starttime dec
-  
-  my $strquery1 = "SELECT acctstarttime, acctstoptime, radacctid, callingstationid FROM radacct WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <  '$datetimeGlobal' AND ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >  '$datetimeGlobal'   OR acctstoptime IS NULL ) ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC ";
-  
-  print "$strquery1 \n";
-
-  my $sth2 = $dbh2->prepare("$strquery1");
-
- # $sth2->execute($datapack[0],$datapack[1], $datetimeGlobal)  or die $DBI::errstr;
- # $sth2->finish();
- # $dbh2->commit or die $DBI::errstr;
-
-
- 
-
 
 
 
@@ -264,11 +249,11 @@ sub toDB {
   print "$datapack[0]  $datapack[1] \t $datetimeGlobal \n";
 
 
-  my $sth = $dbh->prepare("INSERT INTO `macIP`(`mac`, `ip`, `date-time`) VALUES (?,?,?)");
+#  my $sth = $dbh->prepare("INSERT INTO `macIP`(`mac`, `ip`, `date-time`) VALUES (?,?,?)");
 
-  $sth->execute($datapack[0],$datapack[1], $datetimeGlobal)  or die $DBI::errstr;
-  $sth->finish();
-  $dbh->commit or die $DBI::errstr;
+#  $sth->execute($datapack[0],$datapack[1], $datetimeGlobal)  or die $DBI::errstr;
+ # $sth->finish();
+ # $dbh->commit or die $DBI::errstr;
 
 
 
@@ -291,23 +276,56 @@ sub getValue{
 
   $datetimeGlobal = $datetime;
   print $datetimeGlobal."\n";
-#create array
 
+
+
+
+
+# find record from radact  wich $datetimeGlobal in range or (>start time and stoptime==null) order by starttime dec
+  
+  my $strquery1 = "SELECT acctstarttime, acctstoptime, radacctid, callingstationid FROM radacct WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <  '$datetimeGlobal' AND ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >  '$datetimeGlobal'   OR acctstoptime IS NULL ) ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC ";
+  
+  #print "$strquery1 \n";
+
+  my $sth2 = $dbh2->prepare("$strquery1");
+
+  $sth2->execute()  or die $DBI::errstr;
+  
+  my $row;
+  my $strnull;
+  while ($row = $sth2->fetchrow_arrayref()) {
+
+      if(!@$row[1]){
+        $strnull = "-";
+      }
+      else {
+        $strnull = @$row[1];
+      }
+      print "@$row[0] \t  $strnull \t @$row[2] \t @$row[3] \n";
+  }
+
+
+
+  $sth2->finish();
+  $dbh2->commit or die $DBI::errstr;
+
+
+ 
 
 
 getv4($taget_v6address);
+getv6($taget_v6address);
 
-# v4 to DB
 
 #print "@arraynew88";
 
-#getv6($taget_v6address);
-
-#@arraynew88 = ();
-#@arraynew99 = ();
 
 
-  print "\nsend to database. . . \n\n\n";
+@arraynew88 = ();
+@arraynew99 = ();
+%hash00 = ();
+
+  print "\nfinish round . \n\n\n";
 
 
 }
