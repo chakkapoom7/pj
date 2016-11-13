@@ -223,30 +223,35 @@ sub getv4{
   }
 
 
-
-
-
-
-# and loop check by mac if have same mac more than 1 reccord  add stoptime of first reccord from start time of last reccord
-
-
-# add [ radacct ref | mac ] to hash array
  
-#loop check by radactt data if ip not ever add  -->  add [ radacct ref |  ip | date time ]  and send data to DB 
+
 
 
   return @bbb;
 }
 
 
-
 sub toDB {
   my @datapack = @_;
 #  my (@datapack) = @_ ;
   #print "$datapack[0]  $datapack[1] \n";
-  
 
-  print "$datapack[0]  $datapack[1] \t $datetimeGlobal \n";
+  my $strtemp;
+  if(!$hash00{$datapack[0]}){
+    $strtemp = "-";
+  }
+  else{
+    $strtemp = $hash00{$datapack[0]};
+  }
+
+  print "$datapack[0] \t $datetimeGlobal \t radacct ref = >   $strtemp \t $datapack[1]\n";
+  
+  #if ($strtemp != )    query db at same data to add if not have add it.
+
+
+
+
+
 
 
 #  my $sth = $dbh->prepare("INSERT INTO `macIP`(`mac`, `ip`, `date-time`) VALUES (?,?,?)");
@@ -302,9 +307,20 @@ sub getValue{
         $strnull = @$row[1];
       }
       print "@$row[0] \t  $strnull \t @$row[2] \t @$row[3] \n";
+
+
+
+      # check by mac if have same mac more than 1 reccord  use last
+      if(!$hash00{@$row[3]}){
+        # add [ mac | radacct ref ] to hash array
+        $hash00{@$row[3]} = @$row[2];
+      }
   }
 
 
+
+
+  print Dumper(\%hash00);
 
   $sth2->finish();
   $dbh2->commit or die $DBI::errstr;
@@ -317,10 +333,8 @@ getv4($taget_v6address);
 getv6($taget_v6address);
 
 
-#print "@arraynew88";
 
-
-
+# clear  Global list for next round.
 @arraynew88 = ();
 @arraynew99 = ();
 %hash00 = ();
