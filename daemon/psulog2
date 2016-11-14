@@ -236,6 +236,7 @@ sub toDB {
 #  my (@datapack) = @_ ;
   #print "$datapack[0]  $datapack[1] \n";
 
+  my $alreadyflag = 0;
   my $strtemp;
   if(!$hash00{$datapack[0]}){
     $strtemp = "-";
@@ -246,56 +247,62 @@ sub toDB {
 
   print "$datapack[0] \t $datetimeGlobal \t radacct ref = >   $strtemp \t $datapack[1]\n";
   
-  if ($strtemp !="-" ){
-    
-=comment 
- my $strquery1 = "SELECT acctstarttime, acctstoptime, radacctid, callingstationid FROM radacct WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <  '$datetimeGlobal' AND ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >  '$datetimeGlobal'   OR acctstoptime IS NULL ) ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC ";
   
 
 
 
-  #############################################  SELECT * FROM `ipRef` WHERE `radRefId` =  ########################################################
-
-
+# ============  db  check  alreadyyet  ============================
+  if ($strtemp ne "-" ){
+   
+  my $strquery1 = " SELECT * FROM `ipRef` WHERE `radRefId` = '$strtemp' AND `ip`= '$datapack[1]' ";
+  
 
   #print "$strquery1 \n";
+ 
+  my $sth = $dbh->prepare("$strquery1");
 
-  my $sth2 = $dbh2->prepare("$strquery1");
-
-  $sth2->execute()  or die $DBI::errstr;
+  $sth->execute()  or die $DBI::errstr;
   
   my $row;
-  my $strnull;
-  while ($row = $sth2->fetchrow_arrayref()) {
 
-      if(!@$row[1]){
-        $strnull = "-";
-      }
-      else {
-        $strnull = @$row[1];
-      }
-      print "@$row[0] \t  $strnull \t @$row[2] \t @$row[3] \n";
+  while ($row = $sth->fetchrow_arrayref()) {
 
-
-
-      # check by mac if have same mac more than 1 reccord  use last
-      if(!$hash00{@$row[3]}){
-        # add [ mac | radacct ref ] to hash array
-        $hash00{@$row[3]} = @$row[2];
-      }
+      print "@$row[0] \t  @$row[1] \t @$row[2] \t @$row[3] \n";
+      $alreadyflag = 1;
   }
 
 
+  $sth->finish();
+  $dbh->commit or die $DBI::errstr;
+
+  
 
 
-  print Dumper(\%hash00);
 
-  $sth2->finish();
-  $dbh2->commit or die $DBI::errstr;
-=cut
-  }    
+
+
+
+
+
+
+    # ================ db insert =======================
+    if($alreadyflag == 0){
+ 
+    my $sth = $dbh->prepare("INSERT INTO `ipRef`(`radRefId`, `ip`, `dateTime`) VALUES (?,?,?)");
+
+    $sth->execute($strtemp,$datapack[1], $datetimeGlobal)  or die $DBI::errstr;
+    $sth->finish();
+    $dbh->commit or die $DBI::errstr;
+    }
+
+  }  
 
 }
+
+
+
+
+
 
 
 
@@ -405,8 +412,8 @@ $interval = $init[3];
 print "time interval = $interval min\n";
 print "switch address = $switch_v6address\n";
 
-getValue($switch_v6address);
-#while(1){
-   # getValue($switch_v6address);
-#    sleep($interval);
-#}
+#getValue($switch_v6address);
+while(1){
+    getValue($switch_v6address);
+    sleep($interval);
+}
