@@ -163,7 +163,9 @@
 
 
 
-
+$internalvender['key1'] = "value1";
+$internalvender['key2'] = "value2";
+$internalvender['key3'] = "value3";
 
  // Connects to your Database
  mysql_connect("localhost", "root", "kks*5cvp768") or die(mysql_error());
@@ -195,45 +197,52 @@
 #print table ------------------------------------------------------------
   while($info = mysql_fetch_array( $data ))
   {
-    print "<tr>";
-    print "<td>".$info['username']. "</td>";
-    print "<td>".$info['acctstarttime']. "</td>";
+    echo "<tr>";
+    echo "<td>".$info['username']. "</td>";
+    echo "<td>".$info['acctstarttime']. "</td>";
       
     if($info['acctstoptime']==""){
-        print "<td>connect until now</td>";
+        echo "<td>connect until now</td>";
     }else{
-        print "<td>".$info['acctstoptime']. "</td>";
+        echo "<td>".$info['acctstoptime']. "</td>";
     }  
-      
-    $vendor = $api->get_vendor ($info['callingstationid'],'csv');
-    print "<td>".$vendor['company']. "</td>"; #===========================
-    print "<td>".$info['callingstationid']. "</td>";
+     
+    #$vendor = $api->get_vendor ($info['callingstationid'],'csv');
+    $macvendor = substr( $info['callingstationid'],0,8) ;
+
+
+    # SEARCH INTERNAL IF HAVE BUT IF NOT USE API TO SHOW ADD INTERNAL 
+    if (!(array_key_exists("$macvendor",$internalvender)))
+    {
+      $vendor = $api->get_vendor ($info['callingstationid'],'csv');
+      $internalvender[$macvendor] = $vendor['company'];
+      #echo " add \n";
+    }
+    /*
+    else{
+    
+      echo " - \n";
+    } 
+  */
+
+
+
+    echo "<td>".$internalvender[$macvendor]."</td>"; #===========================
+    #echo "<td>".$internalvender['key2']."</td>";
+    echo "<td>".$info['callingstationid']. "</td>";
       
       
 
       
       
-     print "<td>";  
+     echo "<td>";  
       
-      if($info['acctstoptime'] == ""){
-          
-          $strsubquery = "SELECT DISTINCT  `ip` 
-FROM  `proj`.`macIP` 
-WHERE  `mac` =  '".$info['callingstationid']."'
-AND  `date-time` >=  '".$info['acctstarttime']."'
-AND  `date-time` <=  '".date("Y-m-d H:i:sa")."';";
-          
+      
+###########################################*/
 
-      }
-      else  {
-          $strsubquery = "SELECT DISTINCT  `ip` 
-FROM  `proj`.`macIP` 
-WHERE  `mac` =  '".$info['callingstationid']."'
-AND  `date-time` >=  '".$info['acctstarttime']."'
-AND  `date-time` <=  '".$info['acctstoptime']."';";
-      }
-      
-      #print $strsubquery."<br>";
+
+      $strsubquery = "SELECT `ip` FROM `proj`.`ipRef` WHERE `radRefId`= ".$info['radacctid'];
+      #echo $strsubquery."<br>";
       
       
       $subdata = mysql_query($strsubquery) or die(mysql_error());
@@ -242,12 +251,13 @@ AND  `date-time` <=  '".$info['acctstoptime']."';";
       
       while($subinfo = mysql_fetch_array( $subdata ))
       {
-           print $subinfo['ip']."<br>";
+           echo $subinfo['ip']."<br>";
       }
-      print "</td>";
+
+      echo "</td>";
 
     
-    print "</tr>";
+    echo "</tr>";
   }
  ?>
             </tbody>
