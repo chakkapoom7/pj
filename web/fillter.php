@@ -5,141 +5,123 @@
 		echo "Please Login!";
 		exit();
 	}
-
+/*
 	echo "date1 = " . $_POST['date1'] . "<br>";
-    echo "time1 = " . $_POST['time1'] . "<br>";
+    echo "time1 = " . $_POST['time1'] . "<br><br>";
     echo "date2 = " . $_POST['date2'] . "<br>";
-    echo "time2 = " . $_POST['time2'] . "<br>";
-    echo "type = " . $_POST['type'] . "<br>";
+    echo "time2 = " . $_POST['time2'] . "<br><br>";
+    echo "user = " . $_POST['usersearch'] . "<br>";
     echo "string = " . $_POST['string'] . "<br><br><br>";
+*/
 
 
-
-	mysql_connect("localhost","root","kks*5cvp768");
-	mysql_select_db("radius");
-	$strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
-	$objQuery = mysql_query($strSQL);
-	$objResult = mysql_fetch_array($objQuery);
-
-
-// Connects to your Database
- mysql_connect("localhost", "root", "kks*5cvp768") or die(mysql_error());
- mysql_select_db("radius") or die(mysql_error());
-
- #find userid on log table------------------------------------------------------------
- $tmp_string_user = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
- $ob_userid = mysql_query($tmp_string_user) or die(mysql_error());
- $objuserResult = mysql_fetch_array($ob_userid);
-
-
-
-#------------------------------------------------------------------------------------------------------------------------------------------
+    mysql_connect("localhost","root","kks*5cvp768");
+    mysql_select_db("radius");
+    $strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
+    $objQuery = mysql_query($strSQL);
+    $objResult = mysql_fetch_array($objQuery);
 
 
 
 
- $sql_string_query = "SELECT * FROM radacct  ";
-    
 
 
 
-    $tmp = "";
 
-    #start point --------------------------------------------------------
+
+
+
+
+
+$baseString = "SELECT * FROM radacct ";
+
+
+$whereString = "" ;
+$dateTime1 = "" ;
+$dateTime2 = "" ;
+$strString = "" ;
+$userString = "" ;
+
     if($_POST['date1'] != ""){
-        $tmp_time = "00:00:";
+        $tmp_time = "00:00";
         if($_POST['time1'] != "" ){
             $tmp_time = $_POST['time1'] ;
         }
         $tmp_time = $tmp_time . ":00:000";
-        
-        $tmp = $tmp . " AND a.time  >= '" . $_POST['date1'] . "T" . $tmp_time . "'";
+        $dateTime1 = $_POST['date1']." ".$tmp_time ;
+        $whereString = $whereString." AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) >  '".$dateTime1. "' "  ;
     }
+    
 
-    #endpoint ------------------------------------------------------------
+
+
     if($_POST['date2'] != ""){
-        $tmp_time = "00:00:";
+        $tmp_time = "00:00";
         if($_POST['time2'] != "" ){
             $tmp_time = $_POST['time2'] ;
         }
         $tmp_time = $tmp_time . ":00:000";
-        
-        $tmp = $tmp . " AND a.time  <= '" . $_POST['date2'] . "T" . $tmp_time . "'";
-    }
-    
-    #add AND for ip seach ---------------------------------------------------
-
-    if($_POST['string'] != ""){
-        
-        #iden type of  ip  ------------------------------------------------------------------------
-        if($_POST['type'] == 4){
-            $table = "d.ip";
-        }
-        if($_POST['type'] == 6){
-            $table = "e.ip";
-        }
-        if($_POST['type'] == 0){
-            $table = "c.address";
-        }
-        
-        
-        #add string -------------------------------------------------------------------------------
-         $tmp = $tmp . " AND " . $table . " = '" . $_POST['string'] . "'" ;
-    }
-    
-    if($_POST['usersearch'] != ""){
-        
-        $tmp_string_user = "SELECT id FROM user WHERE user = '" . $_POST['usersearch'] . "'";
-     
-        echo "<br>" . $tmp_string_user ."<br>";
-// $ob_userid = mysql_query($tmp_string_user) or die(mysql_error());
-        //$objResult = mysql_fetch_array($ob_userid);
-        
-        
-        $tmp = $tmp . " AND a.userid='" . $objResult[id] . "'" ;
-    }
- 
-
-
-
-
-//echo "" . $tmp . "<br><br>";
-
-    if($tmp != ""){
-        $tmp = " WHERE" . substr($tmp,4) ;
+        $dateTime2 = $_POST['date2']." ".$tmp_time ;
+        $whereString = $whereString." AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <  '".$dateTime2. "' "  ;
     }
 
 
-    
-    #echo "$sql_string_query = " . $sql_string_query ;
-
-    echo '<pre>';
-    print_r($objResult);
-    echo '</pre>';
 
 
-    echo '<pre>';
-    print_r($_POST);
-    echo '</pre>';
+
+    if($_SESSION['permit'] != "ADMIN"){
+        $userString = $objResult[ "Username"] ;
+    }else{
+        $userString = $_POST['usersearch'] ;
+    }
+
+    if($userString != ""){
+        $whereString = $whereString." AND username = '".$userString. "' "  ;
+    }
 
 
-    $sql_string_query = $sql_string_query . $tmp ."ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC";
+$orderString = "ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC";
 
-    echo $sql_string_query."<br>";
+
+
+
+
+
+
+
+
+
+if($whereString != ""){
+    $whereString = "WHERE ".substr( $whereString,4) ;
+}
+
+$sql_string_query = $baseString.$whereString.$orderString ;
 
 
 ?>
+
+
+<!--
 <br><br><br><br><br>
- strquery should =  <br> <br> 
- "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 100"
- <br><br><br><br><br>
+ strquery should =  <?php echo $whereString." <br> <br> " ;?>
+<?php echo $sql_string_query ;?>
+ <br><br>
+<?php echo $dateTime1   ."   -------       ".  $dateTime2   .  "\"".$userString.  "\"" ; ?>
+ <br><br><br>
+
+-->
+
+
 
     <form id="querystr" name="hidenform" method="post" action="infomation.php">
-        <input type="text" id="aaa" name="query_str" value="<?php echo $sql_string_query ?>">
+        <input type="hidden" id="aaa" name="query_str" value="<?php echo $sql_string_query ;?>">
+        <input type="hidden" id="bbb" name="ip_filter" value="<?php echo $_POST['string'] ;?>">
     </form>
 
 
     <script language="JavaScript">
-        //document.hidenform.submit();
+        
+
+        document.hidenform.submit();
 
     </script>

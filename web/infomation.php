@@ -29,6 +29,8 @@
 	$strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
 	$objQuery = mysql_query($strSQL);
 	$objResult = mysql_fetch_array($objQuery);
+
+
 ?>
 
 
@@ -96,10 +98,15 @@
 
                     <br>
 
+
+                    <!--
                     <input type="radio" name="type" value="4" checked> IP(v4) Address &nbsp&nbsp&nbsp
                     <input type="radio" name="type" value="6"> IP(v6) Address &nbsp&nbsp&nbsp
                     <input type="radio" name="type" value="0"> Mac Address &nbsp&nbsp
-                    <input type="text" class="form-control" style="width: 70%;" name="string" placeholder=" Address">
+                    -->
+
+
+                    <input type="text" class="form-control" style="width: 70%;" name="string" placeholder=" IP Address( v4 / v6 ) or MAC Address ">
 
 
                 <?php
@@ -181,16 +188,16 @@ $internalvender['key3'] = "value3";
  ##WHERE username =  '".$objResult["username"]."'
  if($_POST[query_str] == ""){
      if($_SESSION['permit'] == "ADMIN"){
-         $strquery = "SELECT * FROM radacct ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 50";
+         $strquery = "SELECT * FROM radacct ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC ";
      }
      else{
-         $strquery = "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC LIMIT 0 , 50";
+         $strquery = "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) ";
      }
  }
  else{
     $strquery = $_POST[query_str];
  }
-                    
+  #echo     $strquery."   & ipfilter = ".$_POST[ip_filter]   ;                
                     
 #query DB -----------------------------------------------------------------
  $data = mysql_query($strquery) or die(mysql_error());
