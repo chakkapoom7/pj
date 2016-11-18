@@ -204,14 +204,18 @@ $internalvender['key3'] = "value3";
 #print table ------------------------------------------------------------
   while($info = mysql_fetch_array( $data ))
   {
-    echo "<tr>";
+    $filterFlag = 0;
+    $strCHeck = "<tr> <td>".$info['username']. "</td> <td>".$info['acctstarttime']. "</td>";
+    /*echo "";
     echo "<td>".$info['username']. "</td>";
     echo "<td>".$info['acctstarttime']. "</td>";
-      
+      */
     if($info['acctstoptime']==""){
-        echo "<td>connect until now</td>";
+        #echo "<td>connect until now</td>";
+        $strCHeck = $strCHeck."<td>connect until now</td>";
     }else{
-        echo "<td>".$info['acctstoptime']. "</td>";
+        #echo "<td>".$info['acctstoptime']. "</td>";
+        $strCHeck = $strCHeck."<td>".$info['acctstoptime']. "</td>";
     }  
      
     #$vendor = $api->get_vendor ($info['callingstationid'],'csv');
@@ -234,22 +238,26 @@ $internalvender['key3'] = "value3";
 
 
 
-    echo "<td>".$internalvender[$macvendor]."</td>"; #===========================
-    #echo "<td>".$internalvender['key2']."</td>";
-    echo "<td>".$info['callingstationid']. "</td>";
+    #echo "<td>".$internalvender[$macvendor]."</td>"; #===========================
+    $strCHeck = $strCHeck."<td>".$internalvender[$macvendor]."</td>";
+    
+    #echo "<td>".$info['callingstationid']. "</td>";
+    $strCHeck = $strCHeck."<td>".$info['callingstationid']. "</td>";
       
+    if($info['callingstationid'] == $_POST[ip_filter]){
+      $filterFlag = 1;
+    }
+
+
+      ###########################################*/
       
 
-      
-      
-     echo "<td>";  
-      
-      
-###########################################*/
 
+     #echo "<td>";  
+     $strCHeck = $strCHeck."<td>";
 
       $strsubquery = "SELECT `ip` FROM `proj`.`ipRef` WHERE `radRefId`= ".$info['radacctid'];
-      #echo $strsubquery."<br>";
+
       
       
       $subdata = mysql_query($strsubquery) or die(mysql_error());
@@ -258,13 +266,26 @@ $internalvender['key3'] = "value3";
       
       while($subinfo = mysql_fetch_array( $subdata ))
       {
-           echo $subinfo['ip']."<br>";
+           #echo $subinfo['ip']."<br>";
+          $strCHeck = $strCHeck.$subinfo['ip']."<br>";
+          if($subinfo['ip'] == $_POST[ip_filter]){
+            $filterFlag = 1;
+          }
       }
 
-      echo "</td>";
+      #echo "</td>";
+      $subinfo['ip']."<br></td></tr>";
+    
+    #echo "</tr>";
+
+    if($_POST[ip_filter] == "" ){
+      echo $strCHeck;
+    }else if($filterFlag == 1){
+      echo $strCHeck;
+    }
 
     
-    echo "</tr>";
+
   }
  ?>
             </tbody>
