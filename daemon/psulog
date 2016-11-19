@@ -8,12 +8,12 @@ use List::Util 'max';
 use List::MoreUtils qw(uniq);
 use File::Basename;
 
-# basic config
+########################### basic config #############################
 my $switch_v6address = "2001:3c8:9009:181::1";
 my $interval = 60;
 
 
-# MYSQL CONFIG VARIABLES
+###################### MYSQL CONFIG VARIABLES #########################
 my $driver = "mysql";
 
 my $radhost = "localhost";
@@ -27,6 +27,7 @@ my $loguserid = "root";
 my $logpassword = "kks*5cvp768";
 my $logdatabase = "proj";
 
+######################################################################
 
 my $dsn = "DBI:$driver:database=$logdatabase:$loghost";
 my $dsn2 = "DBI:$driver:database=$raddatabase:$radhost";
