@@ -1,7 +1,11 @@
 <?php
 
-#####  session check  
+mysql_connect("localhost","root","kks*5cvp768");
+mysql_select_db("proj");
 
+
+
+#####  session check 
 	session_start();
 	if($_SESSION['userid'] == "")
 	{
@@ -12,19 +16,11 @@
 
 	if($_SESSION['permit'] != "ADMIN")
 	{
-		//echo "you not have permission.";
+		echo "you not have permission.";
 		$permit = user ;
 	}else{
         $permit = admin ;
     }	
-	
-	mysql_connect("localhost","root","kks*5cvp768");
-	mysql_select_db("radius");
-	$strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
-	$objQuery = mysql_query($strSQL);
-	$objResult = mysql_fetch_array($objQuery);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -49,23 +45,56 @@
     <body>
 
 <center>
-<h2>
+
 
 <?php  
 
 if($_POST[query_str] == "longterm"){
 	
-	$str_demo = "ลบข้อมลย้อนหลัง 2 ปีแล้ว";
+	$today = new DateTime('now');
+	date_sub($today, date_interval_create_from_date_string('2 years'));
+	#echo "<br>". date_format($today, 'Y-m-d')."<br>";
+
+
+	$str_demo = "<br>ลบข้อมลก่อน ".date_format($today, 'Y-m-d')." แล้ว ";
 
 }else if($_POST[query_str] == "shortterm"){
 
-	$str_demo = "ลบข้อมลย้อนหลัง 90 วันแล้ว";
+
+	$today = new DateTime('now');
+	date_sub($today, date_interval_create_from_date_string('90 days'));
+	#echo "<br>". date_format($today, 'Y-m-d')."<br>";
+
+	$str_demo = "<br>ลบข้อมลก่อน ".date_format($today, 'Y-m-d')." แล้ว ";
 
 }
+
+/*
+
+################## if you want to delete row from radius uncomment this section  ##########################
+mysql_connect("localhost","root","kks*5cvp768"); # radius serverip usermane and password
+mysql_select_db2("radius");  # radius access data table
+
+
+$strSQL2 = "DELETE FROM radacct WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) < '".date_format($today, 'Y-m-d')." 00:00:00'";
+    
+$objQuery = mysql_query($strSQL);
+###########################################################################################################
+
+*/
+    
+    $strSQL = "DELETE FROM ipRef WHERE dateTime < '".date_format($today, 'Y-m-d')." 00:00:00'";
+    
+    #echo $strSQL."<br>";
+    $objQuery = mysql_query($strSQL);
+    #$objResult = mysql_fetch_array($objQuery);
+
+
 	echo $str_demo;
+
 
 ?>
 
-</h2>
+
 </center>
     </body>
