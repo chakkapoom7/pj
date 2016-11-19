@@ -8,35 +8,29 @@ use List::Util 'max';
 use List::MoreUtils qw(uniq);
 use File::Basename;
 
-# basic config
-my $switch_v6address = "2001:3c8:9009:181::1";
-my $interval = 60;
-
-
 # MYSQL CONFIG VARIABLES
 my $driver = "mysql";
-
+my $userid = "root";
+my $password = "kks*5cvp768";
 my $radhost = "localhost";
-my $raduserid = "root";
-my $radpassword = "kks*5cvp768";
-my $raddatabase = "radius";
-
-
 my $loghost = "localhost";
-my $loguserid = "root";
-my $logpassword = "kks*5cvp768";
-my $logdatabase = "proj";
 
 
-my $dsn = "DBI:$driver:database=$logdatabase:$loghost";
-my $dsn2 = "DBI:$driver:database=$raddatabase:$radhost";
+my $database = "proj";
+
+my $database2 = "radius";
+
+my $dsn = "DBI:$driver:database=$database:$loghost";
+my $dsn2 = "DBI:$driver:database=$database2:$radhost";
 
 # PERL MYSQL CONNECT()
-my $dbh = DBI->connect($dsn, $loguserid, $logpassword , {AutoCommit => 0,RaiseError => 1,} );
-my $dbh2 = DBI->connect($dsn2, $raduserid, $radpassword , {AutoCommit => 0,RaiseError => 1,} );
+my $dbh = DBI->connect($dsn, $userid, $password , {AutoCommit => 0,RaiseError => 1,} );
+my $dbh2 = DBI->connect($dsn2, $userid, $password , {AutoCommit => 0,RaiseError => 1,} );
 
 
 my @init;
+my $switch_v6address;
+my $interval;
 my $datetimeGlobal;
 
 
@@ -72,6 +66,15 @@ sub macFormat{
   return "$macElement[0]-$macElement[1]-$macElement[2]-$macElement[3]-$macElement[4]-$macElement[5]";
 }
 
+
+sub getInitialValue{
+  open(File,"config.cnf");
+
+  my @AllFile = <File>;
+  close(File);
+  chomp @AllFile;
+  return @AllFile;
+}
 
 sub v6_16to32{
   my $v16 = ($_[0]) ;
@@ -387,8 +390,6 @@ getv6($taget_v6address);
 
 my $filename =  basename($0);
 my $runncheck = `pgrep -c $filename`;
-#print "$filename.\n";
-
 
 if( $runncheck > 1 ){
     print "this program already running.\n";
@@ -402,14 +403,17 @@ else{
 }
 
 
+
+
+@init = getInitialValue();
+$switch_v6address = $init[1];
+$interval = $init[3];
+
 print "time interval = $interval min\n";
 print "switch address = $switch_v6address\n";
 
-getValue($switch_v6address);
-
-
-
-  while(1){
+#getValue($switch_v6address);
+while(1){
     getValue($switch_v6address);
     sleep($interval);
-  }
+}
