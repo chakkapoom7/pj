@@ -1,0 +1,179 @@
+#!/usr/bin/perl -w
+
+use strict;
+use warnings;
+use DBI;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+use Data::Dumper;
+use List::Util 'max';
+use List::MoreUtils qw(uniq);
+use File::Basename;
+
+########################### basic config #############################
+my $switch_v6address = "2001:3c8:9009:181::1";
+my $interval = 60;
+
+
+###################### MYSQL CONFIG VARIABLES #########################
+my $driver = "mysql";
+
+my $radhost = "localhost";
+my $raduserid = "root";
+my $radpassword = "kks*5cvp768";
+my $raddatabase = "radius";
+
+
+my $loghost = "localhost";
+my $loguserid = "root";
+my $logpassword = "kks*5cvp768";
+my $logdatabase = "proj";
+
+######################################################################
+
+my $dsn = "DBI:$driver:database=$logdatabase:$loghost";
+my $dsn2 = "DBI:$driver:database=$raddatabase:$radhost";
+
+# PERL MYSQL CONNECT()
+my $dbh = DBI->connect($dsn, $loguserid, $logpassword , {AutoCommit => 0,RaiseError => 1,} );
+my $dbh2 = DBI->connect($dsn2, $raduserid, $radpassword , {AutoCommit => 0,RaiseError => 1,} );
+
+
+my @init;
+my $datetimeGlobal;
+
+
+
+
+sub toDB {
+  my @datapack = @_; #[0]="start"    [1]="stop"   [2]="id"   [3]="mac"    
+
+  my $alreadyflag = 0;
+  my $strtemp;
+  if(!@datapack[1]){
+   @datapack[1] = $ datetimeGlobal ;
+  }
+  
+
+  print "$datapack[0] \t $datapack[1] \t$datapack[2] \t$datapack[3]\n";
+  
+  
+
+
+
+# ============  db  check  alreadyyet  ============================
+
+   
+  my $strquery1 = " SELECT DISTINCT  `ip` FROM  `macIP` WHERE  `mac` =  '$datapack[3]' AND `date-time` >= '$datapack[0]' AND `date-time` < '$datapack[1]'  ";
+  
+
+  print "$strquery1 \n";
+ 
+  my $sth = $dbh->prepare("$strquery1");
+
+  $sth->execute()  or die $DBI::errstr;
+  
+  my $row;
+
+  while ($row = $sth->fetchrow_arrayref()) {
+
+      print "@$row[0]\n";
+
+      	my $sthinsert = $dbh->prepare("INSERT INTO `ipRef`(`radRefId`, `ip`, `dateTime`) VALUES (?,?,?)");
+
+    	$sthinsert->execute($datapack[2],@$row[0], $datapack[0])  or die $DBI::errstr;
+    	$sthinsert->finish();
+    	$dbh->commit or die $DBI::errstr;
+     
+  }
+
+
+  $sth->finish();
+  $dbh->commit or die $DBI::errstr;
+
+  
+
+
+
+
+
+
+
+
+
+    # ================ db insert =======================
+
+ 
+
+}
+
+
+
+
+
+
+
+
+
+#####################################################  get value #########################################
+sub getValue{    
+  print "getting data . . .  \n";
+
+
+  (my $sec,my $min,my $hour,my $mday,my $mon,my $year,my $wday,my $yday,my $isdst) = localtime(time);
+
+  print "time = $hour:$min:$sec\n";
+  $year += 1900 ;
+  $mon += 1;
+  my $datetime = "$year-$mon-$mday $hour:$min:$sec";
+
+  $datetimeGlobal = $datetime;
+  print $datetimeGlobal."\n";
+
+
+
+
+
+# find record from radact  wich $datetimeGlobal in range or (>start time and stoptime==null) order by starttime dec
+  
+  my $strquery1 = "SELECT acctstarttime, acctstoptime, radacctid, callingstationid FROM radacct ";
+  
+  #print "$strquery1 \n";
+
+  my $sth2 = $dbh2->prepare("$strquery1");
+
+  $sth2->execute()  or die $DBI::errstr;
+  
+  my $row;
+  my $strnull;
+  while ($row = $sth2->fetchrow_arrayref()) {
+
+      if(!@$row[1]){
+        $strnull = "-";
+      }
+      else {
+        $strnull = @$row[1];
+      }
+      #print "@$row[0] \t  $strnull \t @$row[2] \t @$row[3] \n";
+      toDB(@$row[0],@$row[1],@$row[2],@$row[3]);
+  }
+
+
+
+
+  
+  $sth2->finish();
+  $dbh2->commit or die $DBI::errstr;
+
+}
+
+
+########################################################### main ###########################################################
+
+
+
+
+print "time interval = $interval min\n";
+
+
+getValue();
+
+

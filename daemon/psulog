@@ -45,9 +45,7 @@ my @arraynew88;
 my @arraynew99;
 my %hash00;
 
-sub ecchor {
 
-} 
 
 sub addZero{
   my $tmpValue = $_[0];
@@ -326,7 +324,7 @@ sub getValue{
 
 # find record from radact  wich $datetimeGlobal in range or (>start time and stoptime==null) order by starttime dec
   
-  my $strquery1 = "SELECT acctstarttime, acctstoptime, radacctid, callingstationid FROM radacct WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <  '$datetimeGlobal' AND ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >  '$datetimeGlobal'   OR acctstoptime IS NULL ) ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC ";
+  my $strquery1 = "SELECT acctstarttime, acctstoptime, radacctid, callingstationid FROM radacct WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <=  '$datetimeGlobal' AND ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >=  '$datetimeGlobal'   OR acctstoptime IS NULL ) ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC ";
   
   #print "$strquery1 \n";
 
