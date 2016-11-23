@@ -70,7 +70,7 @@ $userString = "" ;
 
 
     if($_SESSION['permit'] != "ADMIN"){
-        $userString = $objResult[ "Username"] ;
+        $userString = $objResult["username"] ;
     }else{
         $userString = $_POST['usersearch'] ;
     }
@@ -104,7 +104,7 @@ $sql_string_query = $baseString.$whereString.$orderString ;
 <!--
 <br><br><br><br><br>
  strquery should =  <?php echo $whereString." <br> <br> " ;?>
-<?php echo $sql_string_query ;?>
+<?php echo $sql_string_query ."<br>". $userString ." username =  ". $objResult["username"];?>
  <br><br>
 <?php echo $dateTime1   ."   -------       ".  $dateTime2   .  "\"".$userString.  "\"" ; ?>
  <br><br><br>

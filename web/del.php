@@ -69,20 +69,6 @@ if($_POST[query_str] == "longterm"){
 
 }
 
-/*
-
-################## if you want to delete row from radius uncomment this section  ##########################
-mysql_connect("localhost","root","kks*5cvp768"); # radius serverip usermane and password
-mysql_select_db2("radius");  # radius access data table
-
-
-$strSQL2 = "DELETE FROM radacct WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) < '".date_format($today, 'Y-m-d')." 00:00:00'";
-    
-$objQuery = mysql_query($strSQL);
-###########################################################################################################
-
-*/
-    
     $strSQL = "DELETE FROM ipRef WHERE dateTime < '".date_format($today, 'Y-m-d')." 00:00:00'";
     
     #echo $strSQL."<br>";
@@ -91,6 +77,19 @@ $objQuery = mysql_query($strSQL);
 
 
 	echo $str_demo;
+
+
+################## if you want to delete row from radius uncomment this section  ##########################
+mysql_connect("localhost","root","kks*5cvp768"); # radius serverip usermane and password
+mysql_select_db("radius");  # radius access data table
+
+
+$strSQL2 = "DELETE FROM radacct WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) < '".date_format($today, 'Y-m-d')." 00:00:00'";
+    
+$objQuery = mysql_query($strSQL2);
+
+###########################################################################################################
+
 
 
 ?>

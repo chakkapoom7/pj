@@ -9,22 +9,22 @@ use List::MoreUtils qw(uniq);
 use File::Basename;
 
 ########################### basic config #############################
-my $switch_v6address = "2001:3c8:9009:181::1";
-my $interval = 60;
+my $switch_v6address = "2001:3c8:9009:181::1"; 
+my $interval = 60; # time intervl between pooling round in second unit.
 
 
 ###################### MYSQL CONFIG VARIABLES #########################
 my $driver = "mysql";
 
-my $radhost = "localhost";
-my $raduserid = "root";
-my $radpassword = "kks*5cvp768";
+my $radhost = "localhost"; # radius server ip address.
+my $raduserid = "root"; # username to access database .
+my $radpassword = "kks*5cvp768"; # password for access database.
 my $raddatabase = "radius";
 
 
-my $loghost = "localhost";
-my $loguserid = "root";
-my $logpassword = "kks*5cvp768";
+my $loghost = "localhost"; # log server ip address.
+my $loguserid = "root";  # username to access logdatabase .
+my $logpassword = "kks*5cvp768";  # password for access logdatabase.
 my $logdatabase = "proj";
 
 ######################################################################
