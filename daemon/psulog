@@ -386,10 +386,11 @@ getv6($taget_v6address);
 
 my $filename =  basename($0);
 my $runncheck = `pgrep -c $filename`;
-#print "$filename.\n";
 
 
-if( $runncheck > 1 ){
+$runncheck = $runncheck + 0;
+#print "runcheck = $runncheck  |  filename =$filename.\n";
+if( $runncheck > 2 ){
     print "this program already running.\n";
 
 

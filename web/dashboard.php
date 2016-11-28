@@ -103,18 +103,32 @@
                 </p>
         </div>
 
+
+
+
+
         <?php 
             if($_SESSION["permit"] == "ADMIN"){
             print '
 
         <!-- class="active" -->
 
-        <li><a href="infomation.php" target="iframe555">userlog data<span class="sr-only">(current)</span></a></li>
+        <li><a href="infomation.php" target="iframe555"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> userlog data<span class="sr-only">(current)</span></a></li>
+        '; } ?>
 
-        <li><a href="logclean.php" target="iframe555" >remove old data</a></li>
+        <li><a href="printreport.php" target="iframe555" ><span class="glyphicon glyphicon-print" aria-hidden="true"></span> print report</a></li>
+
+        <?php 
+            if($_SESSION["permit"] == "ADMIN"){
+            print '
+
+        <li><a href="logclean.php" target="iframe555" ><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> remove old data</a></li>
 
           
            '; } ?>
+
+
+
 
         </ul>
 
