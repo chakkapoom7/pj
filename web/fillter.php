@@ -12,8 +12,8 @@
     echo "time2 = " . $_POST['time2'] . "<br><br>";
     echo "user = " . $_POST['usersearch'] . "<br>";
     echo "string = " . $_POST['string'] . "<br><br><br>";
-*/
 
+*/
 
     mysql_connect("localhost","root","kks*5cvp768");
     mysql_select_db("radius");
@@ -77,8 +77,10 @@ $userString = "" ;
     }else{
         $userString = $_POST['usersearch'] ;
     }
-
-    $where2 = " OR ( " .substr( $where2,4). " ) ";
+    if($where2 != ""){
+         $where2 = " OR ( " .substr( $where2,4). " ) ";
+    }
+   
 
     if($userString != ""){
         $where2 = $where2." AND username = '".$userString. "' "  ;
@@ -94,13 +96,14 @@ $orderString = "ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC
 
 
 
-
+    $whereString = $whereString.$where2;
 
 if($whereString != ""){
+
     $whereString = "WHERE ".substr( $whereString,4) ;
 }
 
-$sql_string_query = $baseString.$whereString.$where2.$orderString ;
+$sql_string_query = $baseString.$whereString.$orderString ;
 
 
 ?>
@@ -116,7 +119,7 @@ $sql_string_query = $baseString.$whereString.$where2.$orderString ;
 
 
 
-where str =  <?php echo "<br><br>". $whereString." <br> <br> " ;?>
+str =  <?php echo "<br><br>".$sql_string_query." <br> <br> " ;?>
 -->
 
     <form id="querystr" name="hidenform" method="post" action="infomation.php">

@@ -93,30 +93,43 @@ ob_start(); // ทำการเก็บค่า html นะครับ
     }
 
 
+    $datenow = new DateTime('now');
+    $printtime = $datenow->format('Y-m-d H:i:s');
 
 ?>
 
 
+        <table border="0"  align="center" style="line-height : 60 pt ;">
+            <thead>
+                <tr >
+                    <th><font size="6">รายงานการเชื่อมต่อ และหมายเลข IP Address</font></th>
+                </tr>
+                <tr >
+                    <th>
+                    <?php     
+                      if($_SESSION['permit'] != "ADMIN"){
+                        echo "ของผู้ใช้ ".$_SESSION['username']." ";
+                      }
+                    ?>
 
+                    ระหว่างวันที่ <?php echo $datemin; ?> ถึง <?php echo $datemax; ?></th>
+                </tr>
+                <tr s>
+                    <th>พิมพ์ข้อมูลเมื่อ : <?php  echo $printtime ?></th>
+                </tr>
+            </thead>
+            <tbody>
 
-
-
-
-		รายงานการเชื่อมต่อ และหมายเลข IP Address <br>
-
-		ระหว่างวันที่ <?php echo $datemin; ?> - <?php echo $datemax; ?> <br><br>
-
-	 
-
-
-
+            </tbody>
+        </table>
+        <br>
 
         
-        <!-- for table table
-        <div class="table-responsive" style="margin-top: 0px;"> 
-	style="margin-top: 0 ; border-right: 0; border-top: 1px ; border-bottom: 1px ;  border-collapse: collapse;"
-        -->
-        <table border="1" style=" border-collapse: collapse;" align="center">
+
+
+
+
+        <table border="1" cellPadding="10" style=" border-collapse: collapse;" align="center" >
             <thead>
                 <tr style="background-color: #EEEEEE"><h2>
                     <th>Username</th>
@@ -154,26 +167,33 @@ $internalvender['key3'] = "value3";
  $objuserResult = mysql_fetch_array($ob_userid);
 
 #define sql str query------------------------------------------------------------------
-                    
+  $strquery;                  
  ##WHERE username =  '".$objResult["username"]."'
- if($_SESSION['permit'] == "ADMIN"){
-     if($_SESSION['permit'] == "ADMIN"){
-         $strquery = "SELECT * FROM radacct 
-         WHERE 
-         STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'".
-         " AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' 
 
+  #print "1-session permit =".$_SESSION['permit'];
+
+
+     if($_SESSION['permit'] == "ADMIN"){
+         $strquery = "SELECT * FROM radacct WHERE  ( STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'".
+         " AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' )
          OR ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'"." 
-         AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' 
-          ) ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) ";
+         AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' ) 
+         OR acctstoptime IS NULL
+          ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) ";
      }
-     else{
-         $strquery = "SELECT * FROM radacct WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'"." AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' OR ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'"." 
-         AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' 
-         ) AND username =  '".$objResult["username"]." ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) ";
+     else
+     {
+        $strquery = "SELECT * FROM radacct  WHERE  ((STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'".
+         " AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' )
+         OR ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'"." 
+         AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00'  ) 
+         OR acctstoptime IS NULL
+        ) AND username = '".$_SESSION['username']."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) ";
      }
- }
- #echo $strquery;
+ 
+
+
+#print "====> ".$strquery."<br>";
 
   #echo     $strquery."   & ipfilter = ".$_POST[ip_filter]   ;                
                     
@@ -183,7 +203,7 @@ $internalvender['key3'] = "value3";
   while($info = mysql_fetch_array( $data ))
   {
     $filterFlag = 0;
-    $strCHeck = "<tr> <td>".$info['username']. "</td> <td>".$info['acctstarttime']. "</td>";
+    $strCHeck = "<tr> <td> ".$info['username']. " </td> <td>".$info['acctstarttime']. "</td>";
     /*echo "";
     echo "<td>".$info['username']. "</td>";
     echo "<td>".$info['acctstarttime']. "</td>";
@@ -280,6 +300,7 @@ ob_end_clean();
 $pdf = new mPDF('th', 'A4-L', '0', ''); //การตั้งค่ากระดาษถ้าต้องการแนวตั้ง ก็ A4 เฉยๆครับ ถ้าต้องการแนวนอนเท่ากับ A4-L
 $pdf->SetAutoFont();
 $pdf->SetDisplayMode('fullpage');
+$pdf->setFooter('รายงานหน้าที่ {PAGENO}');
 $pdf->WriteHTML($html, 2);
 $pdf->Output("pdf/report.pdf","I");
 
