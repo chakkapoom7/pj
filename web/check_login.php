@@ -21,6 +21,7 @@
 
 echo $_POST['txtUsername']."".$_POST['txtPassword']." --//-- ".$objResult[username]."".$objResult[value];
 
+
 if(!$objResult2){
    $permittion = "USER";
 }else{
@@ -39,7 +40,7 @@ echo $objResult2[userid];
     {
 			$_SESSION["userid"] = $objResult["id"];
 			$_SESSION["permit"] = $permittion;
-
+			$_SESSION["username"] = $objResult[username];
 			session_write_close();
 			
 			if($permittion == "ADMIN")

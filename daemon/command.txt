@@ -14,10 +14,27 @@ snmpwalk -c public -v 1 udp6:[fdb6:6590:52b4::1] IP-MIB::ipNetToMediaPhysAddress
 
 # background run
 
+========= background run *bestway =========
+
+ใช้ screen 
+
+เมื่อเข้าหน้าต่างของ screen แล้ว สั่งรันโปรแกรม 
+
+ออกมาโดย ctrl+a แล้วตามด้วย d
+
+เวลาจะเข้าไปดู เช็ค session โดย screen -ls
+
+แล้ว ใช้ screen -r เลข session
+
+===========================================
+
+
+วิธีอื่นๆ
+
 setsid $programname
 
 
 or
 
 
-($programname &) เวิร์ค
+($programname &) 

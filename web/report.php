@@ -32,8 +32,8 @@
 
 
 
-#require_once('lib/mpdf/mpdf.php'); //ที่อยู่ของไฟล์ mpdf.php ในเครื่องเรานะครับ
-#ob_start(); // ทำการเก็บค่า html นะครับ
+require_once('lib/mpdf/mpdf.php'); //ที่อยู่ของไฟล์ mpdf.php ในเครื่องเรานะครับ
+ob_start(); // ทำการเก็บค่า html นะครับ
 ?>
 
 
@@ -68,11 +68,30 @@
 
 
 <?php
+/*
 
     echo "<br><br>date1 = " . $_POST['date1'] . "<br>";
     echo "date2 = " . $_POST['date2'] . "<br>";
-    echo "username = " . $_POST['string'] . "<br>";
+    echo "username = " . $_SESSION['username'] . "<br>";
     echo "type = " . $_POST['type'] . "<br><br><br>";
+
+*/
+    $datemin;
+    $datemax;
+
+    if($_POST['type'] == "custom"){
+      $datemin = $_POST['date1'];
+      $datemax = $_POST['date2'];
+    }else{
+
+      $datemax =  new DateTime('now');
+      $datemax = date_format($datemax, 'Y-m-d');
+
+      $datemin = new DateTime('now');
+      date_sub($datemin, date_interval_create_from_date_string('1 '.$_POST['type']));
+      $datemin = date_format($datemin, 'Y-m-d');
+    }
+
 
 
 ?>
@@ -85,7 +104,7 @@
 
 		รายงานการเชื่อมต่อ และหมายเลข IP Address <br>
 
-		ระหว่างวันที่ 12345678 - 876543210 <br><br>
+		ระหว่างวันที่ <?php echo $datemin; ?> - <?php echo $datemax; ?> <br><br>
 
 	 
 
@@ -137,17 +156,25 @@ $internalvender['key3'] = "value3";
 #define sql str query------------------------------------------------------------------
                     
  ##WHERE username =  '".$objResult["username"]."'
- if($_POST[query_str] == ""){
+ if($_SESSION['permit'] == "ADMIN"){
      if($_SESSION['permit'] == "ADMIN"){
-         $strquery = "SELECT * FROM radacct ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC ";
+         $strquery = "SELECT * FROM radacct 
+         WHERE 
+         STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'".
+         " AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' 
+
+         OR ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'"." 
+         AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' 
+          ) ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) ";
      }
      else{
-         $strquery = "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC";
+         $strquery = "SELECT * FROM radacct WHERE STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'"." AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' OR ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'"." 
+         AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' 
+         ) AND username =  '".$objResult["username"]." ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) ";
      }
  }
- else{
-    $strquery = $_POST[query_str];
- }
+ #echo $strquery;
+
   #echo     $strquery."   & ipfilter = ".$_POST[ip_filter]   ;                
                     
 #query DB -----------------------------------------------------------------
@@ -247,7 +274,7 @@ $internalvender['key3'] = "value3";
 
     </html>
 
-<?Php  /*
+<?Php  
 $html = ob_get_contents();
 ob_end_clean();
 $pdf = new mPDF('th', 'A4-L', '0', ''); //การตั้งค่ากระดาษถ้าต้องการแนวตั้ง ก็ A4 เฉยๆครับ ถ้าต้องการแนวนอนเท่ากับ A4-L
@@ -255,5 +282,5 @@ $pdf->SetAutoFont();
 $pdf->SetDisplayMode('fullpage');
 $pdf->WriteHTML($html, 2);
 $pdf->Output("pdf/report.pdf","I");
-*/
+
 ?>

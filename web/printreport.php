@@ -29,7 +29,7 @@
 
         <div class="jumbotron " style="border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
 
-            <form class="form-signin" name="form0" method="post" action="report.php">
+            <form class="form-signin" name="form0" method="post" action="report.php" >
 
                 <input type="hidden" id="aaa" name="username" value=<?php echo $objResult[ "Username"] ?>>
 

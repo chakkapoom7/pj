@@ -37,6 +37,7 @@ $baseString = "SELECT * FROM radacct ";
 
 
 $whereString = "" ;
+$where2 ="";
 $dateTime1 = "" ;
 $dateTime2 = "" ;
 $strString = "" ;
@@ -50,19 +51,21 @@ $userString = "" ;
         $tmp_time = $tmp_time . ":00:000";
         $dateTime1 = $_POST['date1']." ".$tmp_time ;
         $whereString = $whereString." AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) >  '".$dateTime1. "' "  ;
+        $where2 = $where2. " AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >  '".$dateTime1. "' ";
     }
     
 
 
 
     if($_POST['date2'] != ""){
-        $tmp_time = "00:00";
+        $tmp_time = "23:59";
         if($_POST['time2'] != "" ){
             $tmp_time = $_POST['time2'] ;
         }
-        $tmp_time = $tmp_time . ":00:000";
+        $tmp_time = $tmp_time . ":59:000";
         $dateTime2 = $_POST['date2']." ".$tmp_time ;
         $whereString = $whereString." AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <  '".$dateTime2. "' "  ;
+        $where2 = $where2." AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) <  '".$dateTime2. "' "  ;
     }
 
 
@@ -75,8 +78,10 @@ $userString = "" ;
         $userString = $_POST['usersearch'] ;
     }
 
+    $where2 = " OR ( " .substr( $where2,4). " ) ";
+
     if($userString != ""){
-        $whereString = $whereString." AND username = '".$userString. "' "  ;
+        $where2 = $where2." AND username = '".$userString. "' "  ;
     }
 
 
@@ -95,7 +100,7 @@ if($whereString != ""){
     $whereString = "WHERE ".substr( $whereString,4) ;
 }
 
-$sql_string_query = $baseString.$whereString.$orderString ;
+$sql_string_query = $baseString.$whereString.$where2.$orderString ;
 
 
 ?>
@@ -103,15 +108,16 @@ $sql_string_query = $baseString.$whereString.$orderString ;
 
 <!--
 <br><br><br><br><br>
- strquery should =  <?php echo $whereString." <br> <br> " ;?>
+ 
 <?php echo $sql_string_query ."<br>". $userString ." username =  ". $objResult["username"];?>
  <br><br>
 <?php echo $dateTime1   ."   -------       ".  $dateTime2   .  "\"".$userString.  "\"" ; ?>
  <br><br><br>
 
+
+
+where str =  <?php echo "<br><br>". $whereString." <br> <br> " ;?>
 -->
-
-
 
     <form id="querystr" name="hidenform" method="post" action="infomation.php">
         <input type="hidden" id="aaa" name="query_str" value="<?php echo $sql_string_query ;?>">
