@@ -138,7 +138,7 @@
 
 
  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="padding:0px 0px 0px 0px ; ">
-    <iframe src="infomation.php" width="100%" height="900px" name="iframe555" margnheight="0" frameborder="0" ></iframe>
+    <iframe src="infomation.php" width="100%" height="600px" name="iframe555" margnheight="0" frameborder="0" ></iframe>
 </div>
 
 

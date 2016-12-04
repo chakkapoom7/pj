@@ -70,6 +70,7 @@
         <!-- Bootstrap core CSS -->
         <link href="./css/bootstrap.min.css" rel="stylesheet">
 
+
     </head>
 
     <body>
@@ -79,9 +80,9 @@
 
         <!-- serachbox -->
 
-        <div class="jumbotron " style="border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
+        <div class="jumbotron " style="margin-bottom: 0px; margin: 0px border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
 
-            <form class="form-signin" name="form0" method="post" action="fillter.php">
+            <form class="form-signin" name="form0" method="post" action="fillter.php" target="iframetable">
 
                 <input type="hidden" id="aaa" name="username" value=<?php echo $objResult[ "Username"] ?>>
 
@@ -127,27 +128,8 @@
       </form>
         
       </div> 
-      <!-- finish searchbox -->  
-        
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-        
-        <!-- for table table
-        <div class="table-responsive" style="margin-top: 0px;"> -->
-        <table class="table table-striped" style="margin-top: 0px;  padding:">
+      <!-- finish searchbox --><!--
+      <table class="table table-striped" style="margin-top: 0px;  padding: 0px">
             <thead>
                 <tr>
                     <th>Username</th>
@@ -158,139 +140,9 @@
                     <th>IP Address</th>
                 </tr>
             </thead>
-            <tbody>
-
-  <?php
-     # macvendor lib
-
-    include "lib/MacvendorsApi.php";
-    use \macvendors_co;
-
-    $api = new \macvendors_co\MacVendorsApi();
-
-
-
-$internalvender['key1'] = "value1";
-$internalvender['key2'] = "value2";
-$internalvender['key3'] = "value3";
-
- // Connects to your Database
- mysql_connect("localhost", "root", "kks*5cvp768") or die(mysql_error());
- mysql_select_db("radius") or die(mysql_error());
-
- #find userid on log table------------------------------------------------------------
- $tmp_string_user = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
- $ob_userid = mysql_query($tmp_string_user) or die(mysql_error());
- $objuserResult = mysql_fetch_array($ob_userid);
-
-#define sql str query------------------------------------------------------------------
-                    
- ##WHERE username =  '".$objResult["username"]."'
- if($_POST[query_str] == ""){
-     if($_SESSION['permit'] == "ADMIN"){
-         $strquery = "SELECT * FROM radacct ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC ";
-     }
-     else{
-         $strquery = "SELECT * FROM radacct WHERE username =  '".$objResult["username"]."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC";
-     }
- }
- else{
-    $strquery = $_POST[query_str];
- }
-  #echo     $strquery."   & ipfilter = ".$_POST[ip_filter]   ;                
-                    
-#query DB -----------------------------------------------------------------
- $data = mysql_query($strquery) or die(mysql_error());
-#print table ------------------------------------------------------------
-  while($info = mysql_fetch_array( $data ))
-  {
-    $filterFlag = 0;
-    $strCHeck = "<tr> <td>".$info['username']. "</td> <td>".$info['acctstarttime']. "</td>";
-    /*echo "";
-    echo "<td>".$info['username']. "</td>";
-    echo "<td>".$info['acctstarttime']. "</td>";
-      */
-    if($info['acctstoptime']==""){
-        #echo "<td>connect until now</td>";
-        $strCHeck = $strCHeck."<td>connect until now</td>";
-    }else{
-        #echo "<td>".$info['acctstoptime']. "</td>";
-        $strCHeck = $strCHeck."<td>".$info['acctstoptime']. "</td>";
-    }  
-     
-    #$vendor = $api->get_vendor ($info['callingstationid'],'csv');
-    $macvendor = substr( $info['callingstationid'],0,8) ;
-
-
-    # SEARCH INTERNAL IF HAVE BUT IF NOT USE API TO SHOW ADD INTERNAL 
-    if (!(array_key_exists("$macvendor",$internalvender)))
-    {
-      $vendor = $api->get_vendor ($info['callingstationid'],'csv');
-      $internalvender[$macvendor] = $vendor['company'];
-      #echo " add \n";
-    }
-    /*
-    else{
-    
-      echo " - \n";
-    } 
-  */
-
-
-
-    #echo "<td>".$internalvender[$macvendor]."</td>"; #===========================
-    $strCHeck = $strCHeck."<td>".$internalvender[$macvendor]."</td>";
-    
-    #echo "<td>".$info['callingstationid']. "</td>";
-    $strCHeck = $strCHeck."<td>".$info['callingstationid']. "</td>";
-      
-    if($info['callingstationid'] == $_POST[ip_filter]){
-      $filterFlag = 1;
-    }
-
-
-      ###########################################*/
-      
-
-
-     #echo "<td>";  
-     $strCHeck = $strCHeck."<td>";
-
-      $strsubquery = "SELECT `ip` FROM `proj`.`ipRef` WHERE `radRefId`= ".$info['radacctid'];
-
-      
-      
-      $subdata = mysql_query($strsubquery) or die(mysql_error());
-
-      
-      
-      while($subinfo = mysql_fetch_array( $subdata ))
-      {
-           #echo $subinfo['ip']."<br>";
-          $strCHeck = $strCHeck.$subinfo['ip']."<br>";
-          if($subinfo['ip'] == $_POST[ip_filter]){
-            $filterFlag = 1;
-          }
-      }
-
-      #echo "</td>";
-      $subinfo['ip']."<br></td></tr>";
-    
-    #echo "</tr>";
-
-    if($_POST[ip_filter] == "" ){
-      echo $strCHeck;
-    }else if($filterFlag == 1){
-      echo $strCHeck;
-    }
-
-    
-
-  }
- ?>
-            </tbody>
-        </table>
-        <!-- </div> -->
+        </table> 
+-->
+<iframe style="margin: 0px border-width: 0 px; padding: 0px;"  width="100%" height="390px" src="infomationtable.php" name="iframetable" margnheight="0" frameborder="0"></iframe>
 
     </body>
 

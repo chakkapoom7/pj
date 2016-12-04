@@ -122,7 +122,7 @@ $sql_string_query = $baseString.$whereString.$orderString ;
 str =  <?php echo "<br><br>".$sql_string_query." <br> <br> " ;?>
 -->
 
-    <form id="querystr" name="hidenform" method="post" action="infomation.php">
+    <form id="querystr" name="hidenform" method="post" action="infomationtable.php">
         <input type="hidden" id="aaa" name="query_str" value="<?php echo $sql_string_query ;?>">
         <input type="hidden" id="bbb" name="ip_filter" value="<?php echo $_POST['string'] ;?>">
     </form>
