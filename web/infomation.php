@@ -76,7 +76,24 @@
     <body>
 <br>
 
-
+<script language="javascript">
+function fncSubmit(strPage)
+{
+    if(strPage == "search")
+    {
+        document.form0.action="fillter.php";
+        document.form0.target="iframetable";
+    }
+    
+    if(strPage == "print")
+    {
+        document.form0.action="printnow.php";
+        document.form0.target="_blank";
+    }   
+    
+    document.form0.submit();
+}
+</script>
 
         <!-- serachbox -->
 
@@ -123,7 +140,10 @@
                 </div>
 
                 <div align="right">
-                    <button class="btn btn-primary" role="button" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"> Search</button>
+                <br>
+                    <button class="btn btn-primary" role="button" type="button" onClick="JavaScript:fncSubmit('search')"><span class="glyphicon glyphicon-search" aria-hidden="true"> Search</button>
+
+                    <button class="btn btn-primary" role="button" type="button" onClick="JavaScript:fncSubmit('print')"><span class="glyphicon glyphicon-print" aria-hidden="true"> Print</button>
         </div>
       </form>
         
@@ -142,7 +162,7 @@
             </thead>
         </table> 
 -->
-<iframe style="margin: 0px border-width: 0 px; padding: 0px;"  width="100%" height="390px" src="infomationtable.php" name="iframetable" margnheight="0" frameborder="0"></iframe>
+<iframe style="margin: 0px border-width: 0 px; padding: 0px;"  width="100%" height="370px" src="infomationtable.php" name="iframetable" margnheight="0" frameborder="0"></iframe>
 
     </body>
 

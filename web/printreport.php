@@ -39,10 +39,20 @@
                     <input type="radio" name="type" value="weeks" > 1 สัปดาห์ที่ผ่านมา&nbsp&nbsp&nbsp
                     <input type="radio" name="type" value="months"> 1 เดือนที่ผ่านมา&nbsp&nbsp&nbsp
                     <input type="radio" name="type" value="years"> 1 ปีที่ผ่านมา &nbsp&nbsp
-                    
-<br>
-หรือ 
-<br>
+                    <input type="radio" name="type" value="years2"> 2 ปีที่ผ่านมา &nbsp&nbsp
+          
+
+                       <input type="radio" name="type" value="custom2">
+                       <input type="text"  style="width: 50px;" name="num" >
+                       <select   name="unit">
+                            <option value="days">วัน</option>
+                            <option value="months">เดือน</option>
+                            <option value="years">ปี</option>
+                       </select>
+
+     
+ที่ผ่านมา &nbsp&nbsp  <br>หรือ &nbsp&nbsp         <br>
+
                     <input type="radio" name="type" value="custom" > 
                     <label for="time">ระหว่างวันที่ </label>
 

@@ -1,52 +1,151 @@
-<!DOCTYPE html>
-
-
-
-
-
 <?php
-
-#####  session check  
-
-	session_start();
-	if($_SESSION['userid'] == "")
-	{
-		echo "Please Login!";
-        header("location:index.php?error=3");
-		exit();
-	}
-
-	if($_SESSION['permit'] != "ADMIN")
-	{
-		//echo "you not have permission.";
-		$permit = user ;
-	}else{
-        $permit = admin ;
-    }	
-	
-	mysql_connect("localhost","root","kks*5cvp768");
-	mysql_select_db("radius");
-	$strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
-	$objQuery = mysql_query($strSQL);
-	$objResult = mysql_fetch_array($objQuery);
+    session_start();
+    if($_SESSION['userid'] == "")
+    {
+        echo "Please Login!";
+        exit();
+    }
+/*
+    echo "date1 = " . $_POST['date1'] . "<br>";
+    echo "time1 = " . $_POST['time1'] . "<br><br>";
+    echo "date2 = " . $_POST['date2'] . "<br>";
+    echo "time2 = " . $_POST['time2'] . "<br><br>";
+    echo "user = " . $_POST['usersearch'] . "<br>";
+    echo "string = " . $_POST['string'] . "<br><br><br>";
 
 
+*/
+    mysql_connect("localhost","root","kks*5cvp768");
+    mysql_select_db("radius");
+    $strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
+    $objQuery = mysql_query($strSQL);
+    $objResult = mysql_fetch_array($objQuery);
+
+
+
+
+
+
+
+
+
+
+
+
+
+$baseString = "SELECT * FROM radacct ";
+
+
+$whereString = "" ;
+$where2 ="";
+$dateTime1 = "" ;
+$dateTime2 = "" ;
+$strString = "" ;
+$userString = "" ;
+
+    if($_POST['date1'] != ""){
+        $tmp_time = "00:00";
+        if($_POST['time1'] != "" ){
+            $tmp_time = $_POST['time1'] ;
+        }
+        $tmp_time = $tmp_time . ":00:000";
+        $dateTime1 = $_POST['date1']." ".$tmp_time ;
+        $whereString = $whereString." AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) >  '".$dateTime1. "' "  ;
+        $where2 = $where2. " AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) >  '".$dateTime1. "' ";
+    }
+    
+
+
+
+    if($_POST['date2'] != ""){
+        $tmp_time = "23:59";
+        if($_POST['time2'] != "" ){
+            $tmp_time = $_POST['time2'] ;
+        }
+        $tmp_time = $tmp_time . ":59:000";
+        $dateTime2 = $_POST['date2']." ".$tmp_time ;
+        $whereString = $whereString." AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) <  '".$dateTime2. "' "  ;
+        $where2 = $where2." AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) <  '".$dateTime2. "' "  ;
+    }
+
+
+
+
+
+    if($_SESSION['permit'] != "ADMIN"){
+        $userString = $objResult["username"] ;
+    }else{
+        $userString = $_POST['usersearch'] ;
+    }
+    if($where2 != ""){
+         $where2 = " OR ( " .substr( $where2,4). " ) ";
+    }
+   
+
+    if($userString != ""){
+        $where2 = $where2." AND username = '".$userString. "' "  ;
+    }
+
+
+$orderString = "ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) DESC";
+
+
+
+
+
+
+
+
+    $whereString = $whereString.$where2;
+
+if($whereString != ""){
+
+    $whereString = "WHERE ".substr( $whereString,4) ;
+}
+
+$sql_string_query = $baseString.$whereString.$orderString ;
+
+
+
+
+$datenow = new DateTime('now');
+$printtime = $datenow->format('Y-m-d H:i:s');
+
+$dateTime1 = substr($dateTime1, 0 ,-7);
+$dateTime2 = substr($dateTime2, 0 ,-7);
+
+
+
+$strdateshow = "";
+if(($dateTime1 != "") && ($dateTime2 != "")){
+    $strdateshow = "ระหว่างวันที่ ".$dateTime1." ถึง ".$dateTime2." <br>";
+}elseif ($dateTime1 != "") {
+    $strdateshow = "ตั้งแต่วันที่ ".$dateTime1." ถึงปัจจุบัน <br>";
+}elseif ($dateTime2 != "") {
+    $strdateshow = "ก่อนวันที่ ".$dateTime2." <br>";
+}
+
+
+#echo $strdateshow."<br>";
+
+
+
+$strsearchshow="";
+if ($_POST['string'] != "") {
+    $strsearchshow = "กรองโดย IP Address หรือ MAC Address = '".$_POST['string']."' <br>";
+}
+#echo $strsearchshow."<br>";
+
+$strusershow="";
+if ($_SESSION['permit'] != "ADMIN") {
+    $strusershow="ของผู้ใช้ ".$_SESSION['username']." <br>";
+}elseif ($_POST['usersearch'] != "") {
+    $strusershow = "ของผู้ใช้ ".$_POST['usersearch']." <br>";
+}
 
 require_once('lib/mpdf/mpdf.php'); //ที่อยู่ของไฟล์ mpdf.php ในเครื่องเรานะครับ
 ob_start(); // ทำการเก็บค่า html นะครับ
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
 
     <html lang="en">
 
@@ -65,71 +164,19 @@ ob_start(); // ทำการเก็บค่า html นะครับ
 
     <body>
 
-
-
-<?php
-/*
-
-    echo "<br><br>date1 = " . $_POST['date1'] . "<br>";
-    echo "date2 = " . $_POST['date2'] . "<br>";
-    echo "username = " . $_SESSION['username'] . "<br>";
-    echo "type = " . $_POST['type'] . "<br><br><br>";
-
-*/
-    $datemin;
-    $datemax;
-
-    if($_POST['type'] == "custom"){
-      $datemin = $_POST['date1'];
-      $datemax = $_POST['date2'];
-    }elseif ($_POST['type'] == "years2") {
-      $datemax =  new DateTime('now');
-      $datemax = date_format($datemax, 'Y-m-d');
-
-      $datemin = new DateTime('now');
-      date_sub($datemin, date_interval_create_from_date_string('2 years'));
-      $datemin = date_format($datemin, 'Y-m-d');
-    }elseif ($_POST['type'] == "custom2") {
-      $datemax =  new DateTime('now');
-      $datemax = date_format($datemax, 'Y-m-d');
-
-      $datemin = new DateTime('now');
-      date_sub($datemin, date_interval_create_from_date_string($_POST['num'].' '.$_POST['unit']));
-      $datemin = date_format($datemin, 'Y-m-d');
-
-    }else{
-
-      $datemax =  new DateTime('now');
-      $datemax = date_format($datemax, 'Y-m-d');
-
-      $datemin = new DateTime('now');
-      date_sub($datemin, date_interval_create_from_date_string('1 '.$_POST['type']));
-      $datemin = date_format($datemin, 'Y-m-d');
-    }
-
-
-    $datenow = new DateTime('now');
-    $printtime = $datenow->format('Y-m-d H:i:s');
-
-?>
-
-
-        <table border="0"  align="center" style="line-height : 60 pt ;">
+     <table border="0"  align="center" style="line-height : 60 pt ;">
             <thead>
                 <tr >
-                    <th><font size="6">รายงานการเชื่อมต่อ และหมายเลข IP Address</font></th>
+                    <th><font size="6">ข้อมูลการเชื่อมต่อ และหมายเลข IP Address</font></th>
                 </tr>
                 <tr >
                     <th>
-                    <?php     
-                      if($_SESSION['permit'] != "ADMIN"){
-                        echo "ของผู้ใช้ ".$_SESSION['username']." ";
-                      }
-                    ?>
-
-                    ระหว่างวันที่ <?php echo $datemin; ?> ถึง <?php echo $datemax; ?></th>
+                        <?php 
+                            echo $strusershow.$strdateshow.$strsearchshow;
+                        ?>
+                    </th>
                 </tr>
-                <tr s>
+                <tr >
                     <th>พิมพ์ข้อมูลเมื่อ : <?php  echo $printtime ?></th>
                 </tr>
             </thead>
@@ -138,8 +185,6 @@ ob_start(); // ทำการเก็บค่า html นะครับ
             </tbody>
         </table>
         <br>
-
-        
 
 
 
@@ -182,30 +227,8 @@ $internalvender['key3'] = "value3";
  $objuserResult = mysql_fetch_array($ob_userid);
 
 #define sql str query------------------------------------------------------------------
-  $strquery;                  
+  $strquery = $sql_string_query;                  
  ##WHERE username =  '".$objResult["username"]."'
-
-  #print "1-session permit =".$_SESSION['permit'];
-
-
-     if($_SESSION['permit'] == "ADMIN"){
-         $strquery = "SELECT * FROM radacct WHERE  ( STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'".
-         " AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' )
-         OR ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'"." 
-         AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' ) 
-         OR acctstoptime IS NULL
-          ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) ";
-     }
-     else
-     {
-        $strquery = "SELECT * FROM radacct  WHERE  ((STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'".
-         " AND STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00' )
-         OR ( STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) < '".$datemax." 23:59:59'"." 
-         AND STR_TO_DATE( acctstoptime,  '%Y-%m-%d %H:%i:%s' ) > '".$datemin." 00:00:00'  ) 
-         OR acctstoptime IS NULL
-        ) AND username = '".$_SESSION['username']."' ORDER BY STR_TO_DATE( acctstarttime,  '%Y-%m-%d %H:%i:%s' ) ";
-     }
- 
 
 
 #print "====> ".$strquery."<br>";
@@ -309,14 +332,16 @@ $internalvender['key3'] = "value3";
 
     </html>
 
+
+
 <?Php  
 $html = ob_get_contents();
 ob_end_clean();
 $pdf = new mPDF('th', 'A4-L', '0', ''); //การตั้งค่ากระดาษถ้าต้องการแนวตั้ง ก็ A4 เฉยๆครับ ถ้าต้องการแนวนอนเท่ากับ A4-L
 $pdf->SetAutoFont();
 $pdf->SetDisplayMode('fullpage');
-$pdf->setFooter('รายงานหน้าที่ {PAGENO}');
+$pdf->setFooter('หน้าที่ {PAGENO}');
 $pdf->WriteHTML($html, 2);
-$pdf->Output("pdf/report.pdf","I");
+$pdf->Output("pdf/print.pdf","I");
 
 ?>
