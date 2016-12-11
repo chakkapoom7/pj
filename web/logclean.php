@@ -47,9 +47,11 @@
 
     <br>
 
+
+
         <div class="jumbotron " style="border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
 
-
+<!--
             <a class="btn btn-warning" role="button" data-toggle="modal" data-target=#myModal2y>
                 <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> &nbsp; more than 2 years
             </a>
@@ -61,7 +63,7 @@
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> &nbsp; more than 90 days
             </a>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ลบข้อมูลที่มีอายุมากกว่า 90 วัน
-
+-->
             <br>
             
         </div>

@@ -15,11 +15,8 @@ $logusername      = "root";
 $logpassword      = "kks*5cvp768";
 $logdatabase_name = "proj";
 
-$dir_str = BACKUP_PATH."$date_string";
-mkdir($dir_str, 0777);
-
 */
-
+/*
 $restore_file  = "/home/abdul/20140306_world_copy.sql";
 $server_name   = "localhost";
 $username      = "root";
@@ -28,5 +25,20 @@ $database_name = "test_world_copy";
 
 $cmd = "mysql -h {$server_name} -u {$username} -p{$password} {$database_name} < $restore_file";
 exec($cmd);
+*/
+
+
 
 ?>
+<!DOCTYPE html>
+<html>
+<body>
+
+<form action="upload.php" method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="submit" value="Upload Image" name="submit">
+</form>
+
+</body>
+</html>
