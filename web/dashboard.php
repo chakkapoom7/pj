@@ -118,8 +118,10 @@
             if($_SESSION["permit"] == "ADMIN"){
             print '
 
-        <li><a href="backup2.php" target="iframe555" ><span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span> backup data data</a></li>
+        <li><a href="restore.php" target="iframe555" ><span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span> backup / restore data</a></li>
 
+
+ <li><a href="logclean.php" target="iframe555" ><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> clean old data</a></li>
           
            '; } ?>
 

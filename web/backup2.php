@@ -1,4 +1,30 @@
 <?php
+	session_start();
+	if($_SESSION['userid'] == "")
+	{
+		echo "Please Login!";
+        header("location:index.php?error=3");
+		exit();
+	}
+
+	if($_SESSION['permit'] != "ADMIN")
+	{
+		echo "you not have permission.";
+        exit();
+	}else{
+        $permit = admin ;
+    }	
+	
+	mysql_connect("localhost","root","kks*5cvp768");
+	mysql_select_db("radius");
+	$strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
+	$objQuery = mysql_query($strSQL);
+	$objResult = mysql_fetch_array($objQuery);
+?>
+
+
+
+<?php
 define("BACKUP_PATH", "/var/www/html/backup/");
 require_once('lib/dunzip/dZip.inc.php'); // include Class
 $date_string   = date("Ymd_His");
@@ -12,6 +38,9 @@ $logserver_name   = "localhost";
 $logusername      = "root";
 $logpassword      = "kks*5cvp768";
 $logdatabase_name = "proj";
+
+
+exec("rm -rf /var/www/html/backup/*");
 
 
 $cmd1 = "mysqldump --replace --skip-add-drop-table --routines -h {$radserver_name} -u {$radusername} -p{$radpassword} {$raddatabase_name} > " .BACKUP_PATH . "{$date_string}_{$raddatabase_name}.sql";
@@ -42,7 +71,7 @@ exec($cmd4);
 	#$zip->addFile("{$date_string}_{$logdatabase_name}.sql", BACKUP_PATH. "{$date_string}_{$logdatabase_name}.sql"); // Add file to Sub
 	#$zip->addFile("{$date_string}_{$logdatabase_name}.sql", BACKUP_PATH . "{$date_string}_{$raddatabase_name}.sql");
 	$zip->save();
-	echo "<br><center>สำรองข้อมูลแล้ว  คลิ๊ก<a href=$ZipName>ที่นี่</a> เพื่อดาวโหลด</center>";
+	echo "<br><center>สำรองข้อมูลแล้ว คลิ๊ก<a href=$ZipName>ที่นี่</a> เพื่อดาวโหลด</center>";
 
 ?>
 <!DOCTYPE html>
@@ -51,9 +80,9 @@ exec($cmd4);
 	<title></title>
 </head>
 <body>
-<!--
+
 <script type="text/javascript">
 	window.location = "<?php echo $ZipName; ?>";
-</script>  -->
+</script>  
 </body>
 </html>

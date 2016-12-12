@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <?php
-	session_start();
-	if($_SESSION['userid'] == "")
-	{
-		echo "Please Login!";
+  session_start();
+  if($_SESSION['userid'] == "")
+  {
+    echo "Please Login!";
         header("location:index.php?error=3");
-		exit();
-	}
+    exit();
+  }
 
-	if($_SESSION['permit'] != "ADMIN")
-	{
-		echo "you not have permission.";
+  if($_SESSION['permit'] != "ADMIN")
+  {
+    echo "you not have permission.";
         exit();
-	}else{
+  }else{
         $permit = admin ;
-    }	
-	
-	mysql_connect("localhost","root","kks*5cvp768");
-	mysql_select_db("radius");
-	$strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
-	$objQuery = mysql_query($strSQL);
-	$objResult = mysql_fetch_array($objQuery);
+    } 
+  
+  mysql_connect("localhost","root","kks*5cvp768");
+  mysql_select_db("radius");
+  $strSQL = "SELECT * FROM radcheck WHERE id = '".$_SESSION['userid']."' ";
+  $objQuery = mysql_query($strSQL);
+  $objResult = mysql_fetch_array($objQuery);
 ?>
 
     <html lang="en">
@@ -51,19 +51,28 @@
 
         <div class="jumbotron " style="border-width: 0 px; padding:30px 50px 20px 50px;" align="left">
 
-<!--
-            <a class="btn btn-warning" role="button" data-toggle="modal" data-target=#myModal2y>
+             
+          <form action="backup2.php"  >
+          ก่อนทำการ ลบข้อมูลเก่า กรุณา สำรองข้องมูลก่อน &nbsp;&nbsp;&nbsp;&nbsp;<span>
+             <button type="submit" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> สำรองข้อมูล</button>
+          </span>
+             
+          </form>
+   <br>
+            <br>  
+
+            <a class="btn btn-warning " role="button " data-toggle="modal" data-target=#myModal2y>
                 <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> &nbsp; more than 2 years
             </a>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ลบข้อมูลที่มีอายุมากกว่า 2 ปี
             <br>
             <br>
             <br>            
-            <a class="btn btn-danger" role="button" data-toggle="modal" data-target=#myModal90d>
+            <a class="btn btn-danger " role="button" data-toggle="modal" data-target=#myModal90d>
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> &nbsp; more than 90 days
             </a>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ลบข้อมูลที่มีอายุมากกว่า 90 วัน
--->
+
             <br>
             
         </div>
