@@ -10,7 +10,7 @@ use File::Basename;
 
 ########################### basic config #############################
 my $switch_v6address = "2001:3c8:9009:181::1"; 
-my $interval = 60; # time intervl between pooling round in second unit.
+my $interval = 3; # time intervl between pooling round in second unit.
 
 
 ###################### MYSQL CONFIG VARIABLES #########################

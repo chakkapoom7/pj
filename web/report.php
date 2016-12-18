@@ -150,6 +150,7 @@ ob_start(); // ทำการเก็บค่า html นะครับ
                     <th>Username</th>
                     <th>ACC time start</th>
                     <th>ACC time stop</th>
+                    <th>Type</th>
                     <th>Device Vender</th>
                     <th>Physical Address</th>
                     <th>IP Address</th>
@@ -249,7 +250,7 @@ $internalvender['key3'] = "value3";
     } 
   */
 
-
+ $strCHeck .= "<td>".$info['nasporttype']. "</td>"; #================================================================
 
     #echo "<td>".$internalvender[$macvendor]."</td>"; #===========================
     $strCHeck = $strCHeck."<td>".$internalvender[$macvendor]."</td>";
